@@ -12,307 +12,185 @@
   :root{
     --clay:#C84B1E;--clay-deep:#8A3112;--clay-light:#FAE8E1;--clay-bg:#FEF7F4;
     --bg:#FAFAF8;--surface:#fff;--warm:#F0EEEB;--border:#E7E3DD;--ink:#0E0E0E;--muted:#6B6B6B;--faint:#9E9E9E;
-    --shadow:0 10px 30px rgba(20,14,10,.06);--star:#D4A017;--green:#1B7D3A;--blue:#2f6fed;
-  }
-  html[data-theme=dark]{
-    --bg:#141210;--surface:#1E1B18;--warm:#242019;--border:#332e28;--ink:#F5F2EE;--muted:#A79F95;--faint:#7A7268;
-    --clay-bg:#2a1c14;--clay-light:#3a2419;--shadow:0 12px 34px rgba(0,0,0,.5);
+    --shadow:0 10px 28px rgba(20,14,10,.06);--star:#D4A017;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  body{font-family:'Zawi','Aeonik',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;transition:background .3s,color .3s}
+  body{font-family:'Zawi','Aeonik',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
   [dir=ltr] body{font-family:'Aeonik',sans-serif}
-  .en{font-family:'Aeonik',sans-serif}
-  .app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:104px;position:relative}
+  .app{max-width:500px;margin:0 auto;min-height:100vh;padding-bottom:104px;position:relative}
 
-  /* Top bar */
-  .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
-          padding:14px 20px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-  .brand{display:flex;align-items:center;gap:10px}
-  .brand .mark{width:40px;height:40px;border-radius:12px;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;font-family:'Aeonik';font-weight:700;font-size:22px}
-  .brand .wm{font-family:'Aeonik';font-weight:700;font-size:22px;line-height:1}
-  .brand .wm .a{color:var(--clay)}
-  .brand small{display:block;font-size:9.5px;color:var(--muted);letter-spacing:1px;margin-top:2px}
-  .top-actions{display:flex;align-items:center;gap:10px}
-  .streak{display:flex;align-items:center;gap:4px;background:var(--clay-bg);color:var(--clay);font-weight:700;font-size:13px;padding:6px 11px;border-radius:999px}
-  .icirc{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--surface);display:grid;place-items:center;cursor:pointer;font-size:16px;color:var(--muted)}
-  .lang{display:flex;background:var(--warm);border-radius:999px;padding:3px;font-size:12px;font-weight:700}
-  .lang button{border:none;background:none;padding:6px 12px;border-radius:999px;cursor:pointer;color:var(--muted);font-family:inherit}
+  .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:center;position:relative;
+          padding:16px 20px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .wm{font-family:'Aeonik';font-weight:700;font-size:24px}.wm .a{color:var(--clay)}
+  .lang{position:absolute;inset-inline-end:16px;top:50%;transform:translateY(-50%);display:flex;background:var(--warm);border-radius:999px;padding:3px;font-size:12px;font-weight:700}
+  .lang button{border:none;background:none;padding:6px 11px;border-radius:999px;cursor:pointer;color:var(--muted);font-family:inherit}
   .lang button.on{background:var(--clay);color:#fff}
 
-  .screen{display:none;padding:20px}
-  .screen.on{display:block;animation:fade .3s ease}
-  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .screen{display:none;padding:18px}.screen.on{display:block;animation:f .3s ease}
+  @keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-  .greet h1{font-size:26px;font-weight:500;margin-bottom:3px}
-  .greet p{color:var(--muted);font-size:16px;margin-bottom:18px}
+  .greet{margin:6px 2px 18px}
+  .greet h1{font-size:26px;font-weight:500}
+  .greet p{color:var(--muted);font-size:16px;margin-top:3px}
 
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow)}
-  .kicker{color:var(--clay);font-weight:700;font-size:12px;letter-spacing:.6px;margin-bottom:6px}
-  .action-card h2{font-size:22px;font-weight:500;margin-bottom:3px}
-  .action-card .sub{color:var(--muted);font-size:14px}
+  /* Hero (matches app) */
+  .hero{position:relative;border-radius:30px;overflow:hidden;box-shadow:var(--shadow);height:420px}
+  .hero>img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,.15) 55%,transparent)}
+  .hero .c{position:absolute;bottom:0;inset-inline:0;padding:22px}
+  .hero .badge{display:inline-block;background:var(--clay-light);color:var(--clay-deep);font-weight:700;font-size:13px;padding:7px 13px;border-radius:999px;margin-bottom:14px}
+  .hero h2{color:#fff;font-size:30px;font-weight:500;line-height:1.28;text-shadow:0 2px 14px rgba(0,0,0,.5)}
   .btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:var(--clay);color:#fff;border:none;
-       font-family:inherit;font-weight:700;font-size:17px;padding:16px;border-radius:15px;cursor:pointer;box-shadow:0 12px 26px rgba(200,75,30,.30);margin-top:16px}
-  .btn.sec{background:var(--warm);color:var(--ink);box-shadow:none}
+       font-family:inherit;font-weight:700;font-size:17px;padding:17px;border-radius:16px;cursor:pointer;box-shadow:0 12px 26px rgba(200,75,30,.32);margin-top:16px}
   .btn:active{transform:scale(.98)}
 
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
-  .mini{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
-  .mini .ic{width:38px;height:38px;border-radius:11px;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;font-size:18px;margin-bottom:10px}
-  .mini b{display:block;font-size:15px}.mini span{color:var(--muted);font-size:12px}
+  .sec{margin:30px 4px 14px}
+  .sec h3{font-size:22px;font-weight:500}.sec p{color:var(--muted);font-size:14px;margin-top:2px}
 
-  /* stat tracker card */
-  .stat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-  .stat-head b{font-size:17px}.stat-head .tag{background:var(--clay-bg);color:var(--clay);font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px}
-  .stats{display:flex;justify-content:space-between;text-align:center}
-  .stats .n{font-family:'Aeonik';font-weight:700;font-size:26px;color:var(--clay)}
-  .stats .l{color:var(--muted);font-size:12px;margin-top:2px}
-  .progress{height:8px;border-radius:6px;background:var(--warm);margin-top:16px;overflow:hidden}
-  .progress i{display:block;height:100%;width:33%;background:var(--clay);border-radius:6px}
-  .progress-note{color:var(--muted);font-size:12px;margin-top:8px}
+  /* Big product card (matches app primaryShowcase) */
+  .feature{background:var(--surface);border-radius:30px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer}
+  .feature .fimg{position:relative;height:220px}
+  .feature .fimg img{width:100%;height:100%;object-fit:cover}
+  .feature .fimg .pop{position:absolute;top:14px;inset-inline-end:14px;background:var(--clay);color:#fff;font-weight:700;font-size:11px;padding:6px 12px;border-radius:999px}
+  .feature .fb{padding:20px}
+  .feature .fb h4{font-size:24px;font-weight:700}
+  .feature .fb p{color:var(--muted);font-size:15px;margin:8px 0;line-height:1.5}
+  .feature .fb .pr{display:flex;align-items:center;gap:8px}
+  .feature .fb .pr em{font-style:normal;color:var(--faint);font-size:13px}
+  .feature .fb .pr b{color:var(--clay);font-size:18px}
+  .feature .fb .pr .arrow{margin-inline-start:auto;color:var(--clay);font-size:26px}
 
-  .sec-title{font-size:22px;font-weight:500;margin:24px 4px 14px;display:flex;justify-content:space-between;align-items:center}
-  .sec-title a{color:var(--clay);font-size:14px;font-weight:700;text-decoration:none}
+  /* coming soon strip */
+  .soon-lbl{color:var(--faint);font-weight:700;font-size:13px;margin:26px 4px 12px}
+  .soon{display:flex;gap:12px}
+  .soon .s{flex:1;text-align:center}
+  .soon .s img{width:100%;height:96px;object-fit:cover;border-radius:16px;filter:saturate(.9)}
+  .soon .s .n{font-size:12px;font-weight:700;color:var(--muted);margin-top:8px}
 
-  /* product row */
-  .prod{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:22px;overflow:hidden;margin-bottom:14px;cursor:pointer;box-shadow:var(--shadow)}
-  .prod img{width:118px;height:130px;object-fit:cover;flex:none}
-  .prod .pi{padding:15px;flex:1;display:flex;flex-direction:column;justify-content:center}
-  .prod .pi h3{font-size:18px;font-weight:700;display:flex;gap:8px;align-items:center}
-  .prod .pi .soon{font-size:10px;font-weight:700;color:var(--muted);background:var(--warm);padding:3px 8px;border-radius:999px}
-  .prod .pi p{color:var(--muted);font-size:13px;margin:5px 0;line-height:1.5}
-  .prod .pi .price{color:var(--clay);font-weight:700;font-size:14px}
-  .prod .pi .price em{color:var(--muted);font-weight:400;font-style:normal;font-size:12px}
+  /* testimonials */
+  .trow{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;margin:0 -18px;padding-inline:18px}
+  .tcard{flex:0 0 230px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+  .tcard .st{color:var(--star);font-size:12px;letter-spacing:2px}
+  .tcard q{display:block;font-size:13px;color:var(--muted);line-height:1.6;margin:10px 0;min-height:64px}
+  .tcard .who{display:flex;align-items:center;gap:10px}
+  .tcard .av{width:34px;height:34px;border-radius:50%;background:var(--clay-light);color:var(--clay);display:grid;place-items:center;font-weight:700}
+  .tcard .who b{font-size:12px}.tcard .who span{color:var(--faint);font-size:11px;display:block}
 
-  /* hero */
-  .hero{position:relative;border-radius:26px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow)}
-  .hero img{width:100%;height:230px;object-fit:cover;display:block}
-  .hero .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.62),transparent 60%)}
-  .hero .t{position:absolute;bottom:0;padding:20px;color:#fff}
-  .hero .t .b{display:inline-block;background:rgba(255,255,255,.9);color:var(--clay-deep);font-weight:700;font-size:11px;padding:5px 11px;border-radius:999px;margin-bottom:10px}
-  .hero .t h2{font-size:24px;font-weight:500;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+  /* orders empty (matches app) */
+  .empty{text-align:center;padding:70px 24px}
+  .empty .big{width:96px;height:96px;border-radius:50%;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;font-size:42px;margin:0 auto 22px}
+  .empty h2{font-size:22px;font-weight:500;margin-bottom:8px}.empty p{color:var(--muted);line-height:1.6}
 
-  /* size grid (print screen) */
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .size{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:16px;cursor:pointer;position:relative;box-shadow:var(--shadow);transition:.15s}
-  .size.sel{border-color:var(--clay);background:var(--clay-bg)}
-  .size .pop{position:absolute;top:10px;inset-inline-start:10px;background:var(--clay);color:#fff;font-size:9px;font-weight:700;padding:3px 8px;border-radius:999px}
-  .size .ph{height:78px;background:var(--warm);border-radius:8px;margin:14px 0 12px;display:grid;place-items:center;color:var(--faint);font-size:12px}
-  .size b{font-size:16px}.size .d{color:var(--muted);font-size:12px}.size .p{color:var(--clay);font-weight:700;font-size:14px;margin-top:4px}
-  .chips{display:flex;gap:10px;margin-top:6px}
-  .chip{flex:1;text-align:center;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px;cursor:pointer;font-weight:700;font-size:14px}
-  .chip.sel{border-color:var(--clay);background:var(--clay-bg);color:var(--clay)}
-  .chip small{display:block;color:var(--muted);font-weight:400;font-size:11px;margin-top:2px}
-
-  /* orders */
-  .order{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
-  .order .oh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-  .order .oh .id{font-weight:700;font-size:15px}
-  .order .oh .date{color:var(--faint);font-size:12px}
-  .pill{font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px}
-  .pill.print{background:#e7f0ff;color:var(--blue)}
-  .pill.ready{background:#e6f5ea;color:var(--green)}
-  .pill.done{background:var(--warm);color:var(--muted)}
-  .oline{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;padding:5px 0}
-  .oline b{color:var(--ink)}
-  .otot{display:flex;justify-content:space-between;border-top:1px solid var(--border);margin-top:8px;padding-top:10px;font-weight:700}
-  .track{display:flex;gap:6px;margin-top:12px}
-  .track .s{flex:1;height:5px;border-radius:3px;background:var(--warm)}
-  .track .s.on{background:var(--clay)}
-  .track-lbl{color:var(--clay);font-size:12px;font-weight:700;margin-top:8px}
-
-  /* empty */
-  .empty{text-align:center;padding:50px 24px}
-  .empty .big{width:88px;height:88px;border-radius:50%;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;font-size:38px;margin:0 auto 20px}
-  .empty h2{font-size:21px;font-weight:500;margin-bottom:8px}.empty p{color:var(--muted)}
-
-  /* account */
-  .avatar{width:84px;height:84px;border-radius:50%;background:var(--clay-light);color:var(--clay);display:grid;place-items:center;font-family:'Aeonik';font-weight:700;font-size:32px;margin:8px auto 12px}
+  /* account (matches ProfileView) */
+  .avatar{width:80px;height:80px;border-radius:50%;background:var(--clay-light);color:var(--clay);display:grid;place-items:center;font-family:'Aeonik';font-weight:700;font-size:30px;margin:14px auto 12px}
   .acc-name{text-align:center;font-size:20px;font-weight:700}
-  .acc-mail{text-align:center;color:var(--muted);margin-bottom:20px;font-size:14px}
+  .acc-mail{text-align:center;color:var(--muted);margin-bottom:18px;font-size:14px}
+  .statcard{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:var(--shadow);display:flex;justify-content:space-around;text-align:center;margin-bottom:18px}
+  .statcard .n{font-family:'Aeonik';font-weight:700;font-size:22px}.statcard .l{color:var(--muted);font-size:11px;margin-top:2px}
+  .acc-sec{color:var(--faint);font-weight:700;font-size:12px;margin:18px 4px 10px}
   .list-row{display:flex;align-items:center;gap:14px;padding:15px;background:var(--surface);border:1px solid var(--border);border-radius:15px;margin-bottom:10px;cursor:pointer;box-shadow:var(--shadow)}
   .list-row .ic{width:34px;height:34px;border-radius:9px;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;font-size:15px}
   .list-row b{font-size:15px}.list-row span{color:var(--muted);font-size:12px;display:block}
   .list-row .ch{margin-inline-start:auto;color:var(--faint)}
   .signout{width:100%;padding:15px;border:none;background:color-mix(in srgb,#C62828 8%,transparent);color:#C62828;font-family:inherit;font-weight:700;border-radius:15px;margin-top:8px;cursor:pointer}
 
-  /* tab bar */
-  .tabbar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:488px;
+  .tabbar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:468px;
           background:var(--surface);border:1px solid var(--border);border-radius:26px;display:flex;justify-content:space-around;padding:9px 6px;box-shadow:0 16px 44px rgba(0,0,0,.16);z-index:30}
-  .tab{border:none;background:none;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--faint);font-size:11px;font-weight:700;cursor:pointer;padding:6px 14px;border-radius:16px}
-  .tab svg{width:22px;height:22px}
-  .tab.on{color:var(--clay);background:var(--clay-bg)}
-  .demo-note{text-align:center;color:var(--faint);font-size:11px;padding:6px 20px 0}
+  .tab{border:none;background:none;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--faint);font-size:11px;font-weight:700;cursor:pointer;padding:7px 20px;border-radius:16px}
+  .tab svg{width:23px;height:23px}.tab.on{color:var(--clay);background:var(--clay-bg)}
 </style>
 </head>
 <body>
 <div class="app">
-
   <div class="topbar">
-    <div class="brand">
-      <div class="mark">L</div>
-      <div><span class="wm">Laq<span class="a">ta</span></span><small data-ar="طباعة نسائية · الرياض" data-en="WOMEN-OPERATED · RIYADH">طباعة نسائية · الرياض</small></div>
-    </div>
-    <div class="top-actions">
-      <div class="icirc" onclick="toggleTheme()" id="themeBtn">🌙</div>
-      <div class="lang">
-        <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
-        <button id="btnEn" onclick="setLang('en')">EN</button>
-      </div>
-    </div>
+    <span class="wm">Laq<span class="a">ta</span></span>
+    <div class="lang"><button id="btnAr" class="on" onclick="setLang('ar')">عربي</button><button id="btnEn" onclick="setLang('en')">EN</button></div>
   </div>
 
-  <!-- ================= HOME ================= -->
+  <!-- HOME -->
   <section class="screen on" id="s-home">
     <div class="greet">
       <h1 data-ar="أهلاً نورة 👋" data-en="Hi Noura 👋">أهلاً نورة 👋</h1>
-      <p data-ar="جاهزة نطبع لكِ ذكرى اليوم؟" data-en="Ready to print a memory today?">جاهزة نطبع لكِ ذكرى اليوم؟</p>
+      <p data-ar="أي لحظة حلوة نطبعها لكِ اليوم؟" data-en="Which memory shall we print for you today?">أي لحظة حلوة نطبعها لكِ اليوم؟</p>
     </div>
 
-    <div class="card action-card">
-      <div class="kicker" data-ar="اطبعي الآن" data-en="PRINT NOW">اطبعي الآن</div>
-      <h2 data-ar="صورك بين يديكِ خلال 24 ساعة" data-en="Your photos in hand within 24 hours">صورك بين يديكِ خلال 24 ساعة</h2>
-      <div class="sub" data-ar="اختاري صورك، نطبعها بجودة فاخرة، ونوصلها لبابك." data-en="Pick your photos, we print in premium quality, delivered to your door.">اختاري صورك، نطبعها بجودة فاخرة، ونوصلها لبابك.</div>
-      <button class="btn" onclick="go2('s-print')"><span>🖼️</span><span data-ar="اختاري صوركِ — بضغطة واحدة" data-en="Choose your photos — one tap">اختاري صوركِ — بضغطة واحدة</span></button>
-    </div>
-
-    <div class="row2">
-      <div class="mini"><div class="ic">🔒</div><b data-ar="صوركِ سرّكِ" data-en="Your photos, private">صوركِ سرّكِ</b><span data-ar="بأيادٍ نسائية · تُحذف بعد الطباعة" data-en="Women's hands · deleted after printing">بأيادٍ نسائية · تُحذف بعد الطباعة</span></div>
-      <div class="mini"><div class="ic">🚚</div><b data-ar="توصيل الرياض" data-en="Riyadh delivery">توصيل الرياض</b><span data-ar="خلال يوم إلى يومين" data-en="Within 1–2 days">خلال يوم إلى يومين</span></div>
-    </div>
-
-    <div class="card">
-      <div class="stat-head"><b data-ar="رحلتكِ مع لقطة" data-en="Your Laqta journey">رحلتكِ مع لقطة</b><span class="tag" data-ar="أول طلب مجاني 🎉" data-en="First order free 🎉">أول طلب مجاني 🎉</span></div>
-      <div class="stats">
-        <div><div class="n">0</div><div class="l" data-ar="طلبات" data-en="Orders">طلبات</div></div>
-        <div><div class="n">0</div><div class="l" data-ar="صور مطبوعة" data-en="Prints">صور مطبوعة</div></div>
-        <div><div class="n">5<span style="font-size:14px"> ر.س</span></div><div class="l" data-ar="سعر الصورة" data-en="per photo">سعر الصورة</div></div>
+    <div class="hero">
+      <img src="img/hero.jpg" alt="">
+      <div class="ov"></div>
+      <div class="c">
+        <span class="badge" data-ar="🎉 أول طلب هدية منّا" data-en="🎉 First order on us">🎉 أول طلب هدية منّا</span>
+        <h2 data-ar="حوّلي لحظاتكِ الغالية إلى صور تلمسينها" data-en="Turn your dearest moments into prints you can hold">حوّلي لحظاتكِ الغالية إلى صور تلمسينها</h2>
+        <button class="btn" onclick="alert('اختاري صورك من مكتبتك — في النسخة الكاملة')"><span>🖼️</span><span data-ar="اختاري صوركِ" data-en="Choose your photos">اختاري صوركِ</span></button>
       </div>
-      <div class="progress"><i></i></div>
-      <div class="progress-note" data-ar="اطبعي أول 10 صور لتفتحي شارة «العميلة الذهبية» ✨" data-en="Print your first 10 photos to unlock the Gold badge ✨">اطبعي أول 10 صور لتفتحي شارة «العميلة الذهبية» ✨</div>
     </div>
 
-    <div class="sec-title"><span data-ar="مجموعتنا" data-en="Our Collection">مجموعتنا</span><a onclick="go2('s-print')" data-ar="الكل" data-en="See all">الكل</a></div>
+    <div class="sec"><h3 data-ar="مجموعتنا" data-en="Our Collection">مجموعتنا</h3><p data-ar="لكل ذكرى شكل يليق بها" data-en="Every memory has a form that suits it">لكل ذكرى شكل يليق بها</p></div>
 
-    <div class="prod" onclick="go2('s-print')">
-      <img src="img/screen3.png" alt="">
-      <div class="pi"><h3><span data-ar="طباعة صور" data-en="Prints">طباعة صور</span> <span class="soon" style="background:var(--clay);color:#fff" data-ar="الأكثر طلباً" data-en="Popular">الأكثر طلباً</span></h3>
-        <p data-ar="على ورق فاخر يدوم بألوانه سنين." data-en="On premium paper that lasts for years.">على ورق فاخر يدوم بألوانه سنين.</p>
-        <div class="price"><em data-ar="من" data-en="from">من</em> 5 <span data-ar="ر.س" data-en="SAR">ر.س</span></div></div>
+    <div class="feature" onclick="alert('طباعة الصور — متاحة في النسخة الكاملة')">
+      <div class="fimg"><img src="img/prints.jpg" alt=""><span class="pop" data-ar="الأكثر طلباً" data-en="Most loved">الأكثر طلباً</span></div>
+      <div class="fb">
+        <h4 data-ar="طباعة صور" data-en="Prints">طباعة صور</h4>
+        <p data-ar="صورك الغالية على ورق فاخر يدوم بألوانه سنين." data-en="Your photos on premium paper that keeps its color for years.">صورك الغالية على ورق فاخر يدوم بألوانه سنين.</p>
+        <div class="pr"><em data-ar="ابدئي من" data-en="Starting at">ابدئي من</em><b>5 <span data-ar="ر.س" data-en="SAR">ر.س</span></b><span class="arrow">←</span></div>
+      </div>
     </div>
-    <div class="prod">
-      <img src="img/screen1.png" alt="">
-      <div class="pi"><h3><span data-ar="كتاب صور" data-en="Photobooks">كتاب صور</span> <span class="soon" data-ar="قريباً" data-en="soon">قريباً</span></h3>
-        <p data-ar="اجمعي رحلتك في كتاب أنيق يُفتح مسطّحاً." data-en="Gather your trip into an elegant lay-flat book.">اجمعي رحلتك في كتاب أنيق يُفتح مسطّحاً.</p>
-        <div class="price"><em data-ar="من" data-en="from">من</em> 79 <span data-ar="ر.س" data-en="SAR">ر.س</span></div></div>
+
+    <div class="soon-lbl" data-ar="قريباً في لقطة" data-en="Coming soon to Laqta">قريباً في لقطة</div>
+    <div class="soon">
+      <div class="s"><img src="img/photobook.jpg" alt=""><div class="n" data-ar="كتاب صور" data-en="Photobooks">كتاب صور</div></div>
+      <div class="s"><img src="img/wallart.jpg" alt=""><div class="n" data-ar="لوحة جدارية" data-en="Wall Art">لوحة جدارية</div></div>
+      <div class="s"><img src="img/gift.jpg" alt=""><div class="n" data-ar="هدايا" data-en="Gifts">هدايا</div></div>
     </div>
-    <p class="demo-note" data-ar="نسخة تجريبية للمراجعة" data-en="Preview build for review">نسخة تجريبية للمراجعة</p>
+
+    <div class="sec"><h3 data-ar="أحبّتها كل من جرّبتها" data-en="Loved by everyone who tried">أحبّتها كل من جرّبتها</h3><p>⭐ 4.9 · <span data-ar="+120 تقييم" data-en="120+ reviews">+120 تقييم</span></p></div>
+    <div class="trow">
+      <div class="tcard"><div class="st">★★★★★</div><q data-ar="“أول مرة أطبع صور من سنين — الجودة تفوق التوقعات وما شافها أحد!”" data-en="“First time printing in years — the quality exceeded expectations and no one saw them!”">“أول مرة أطبع صور من سنين — الجودة تفوق التوقعات وما شافها أحد!”</q><div class="who"><div class="av">س</div><div><b>سارة م.</b><span>الرياض</span></div></div></div>
+      <div class="tcard"><div class="st">★★★★★</div><q data-ar="“التغليف فخم جداً، أرسلت هدية لصديقتي وبكت من الفرحة.”" data-en="“Beautiful packaging — I sent a gift to my friend and she cried with joy.”">“التغليف فخم جداً، أرسلت هدية لصديقتي وبكت من الفرحة.”</q><div class="who"><div class="av">ه</div><div><b>هند ع.</b><span>الرياض</span></div></div></div>
+      <div class="tcard"><div class="st">★★★★★</div><q data-ar="“وصلت في اليوم التالي! ما توقعت هالسرعة.”" data-en="“Arrived the next day! I didn't expect it to be this fast.”">“وصلت في اليوم التالي! ما توقعت هالسرعة.”</q><div class="who"><div class="av">ن</div><div><b>نورة ف.</b><span>الرياض</span></div></div></div>
+    </div>
   </section>
 
-  <!-- ================= PRINT ================= -->
-  <section class="screen" id="s-print">
-    <div class="greet"><h1 data-ar="اطبعي صورك" data-en="Print your photos">اطبعي صورك</h1><p data-ar="اختاري المقاس والورق — نبدأ من 5 ر.س للصورة" data-en="Pick a size & paper — from SAR 5 per photo">اختاري المقاس والورق — نبدأ من 5 ر.س للصورة</p></div>
-
-    <div class="hero"><img src="img/screen2.png" alt=""><div class="ov"></div><div class="t"><span class="b" data-ar="معاينة حيّة قبل الطباعة" data-en="Live preview before printing">معاينة حيّة قبل الطباعة</span><h2 data-ar="شوفي شكل صورتك قبل ما تطبعيها" data-en="See your print before you order">شوفي شكل صورتك قبل ما تطبعيها</h2></div></div>
-
-    <div class="sec-title"><span data-ar="اختاري المقاس" data-en="Choose size">اختاري المقاس</span></div>
-    <div class="grid2">
-      <div class="size sel" onclick="selSize(this)"><span class="pop" data-ar="الأكثر طلباً" data-en="Popular">الأكثر طلباً</span><div class="ph">10×15 سم</div><b data-ar="مقاس عادي" data-en="Classic">مقاس عادي</b><div class="d">10×15 سم</div><div class="p">5 <span data-ar="ر.س/صورة" data-en="SAR/photo">ر.س/صورة</span></div></div>
-      <div class="size" onclick="selSize(this)"><div class="ph">10×10 سم</div><b data-ar="مربع انستقرام" data-en="Square">مربع انستقرام</b><div class="d">10×10 سم</div><div class="p">8 <span data-ar="ر.س/صورة" data-en="SAR/photo">ر.س/صورة</span></div></div>
-      <div class="size" onclick="selSize(this)"><div class="ph">15×21 سم</div><b data-ar="كبير" data-en="Large">كبير</b><div class="d">15×21 سم</div><div class="p">12 <span data-ar="ر.س/صورة" data-en="SAR/photo">ر.س/صورة</span></div></div>
-      <div class="size" onclick="selSize(this)"><div class="ph">A4</div><b>A4</b><div class="d">21×30 سم</div><div class="p">18 <span data-ar="ر.س/صورة" data-en="SAR/photo">ر.س/صورة</span></div></div>
-    </div>
-
-    <div class="sec-title"><span data-ar="نوع الورق" data-en="Paper finish">نوع الورق</span></div>
-    <div class="chips">
-      <div class="chip sel" onclick="selChip(this)" data-ar="لامع" data-en="Glossy">لامع<small data-ar="ألوان زاهية" data-en="Vivid">ألوان زاهية</small></div>
-      <div class="chip" onclick="selChip(this)" data-ar="مطفي" data-en="Matte">مطفي<small data-ar="بدون انعكاس" data-en="No glare">بدون انعكاس</small></div>
-      <div class="chip" onclick="selChip(this)" data-ar="لاستر" data-en="Lustre">لاستر<small data-ar="نصف لامع" data-en="Semi-gloss">نصف لامع</small></div>
-    </div>
-
-    <button class="btn" style="margin-top:22px" onclick="alert('الدفع بمدى / Apple Pay أو عند الاستلام — في النسخة الكاملة')"><span data-ar="متابعة الطلب" data-en="Continue order">متابعة الطلب</span></button>
-    <div class="mini" style="margin-top:14px;background:var(--clay-bg);border-color:transparent"><b data-ar="🔒 صورك تبقى بينك وبيننا" data-en="🔒 Your photos stay between us">🔒 صورك تبقى بينك وبيننا</b><span data-ar="كل يد تلمس صورك يدُ امرأة، وتُحذف خلال 24 ساعة." data-en="Every hand that touches them is a woman's, deleted within 24h.">كل يد تلمس صورك يدُ امرأة، وتُحذف خلال 24 ساعة.</span></div>
-  </section>
-
-  <!-- ================= ORDERS ================= -->
+  <!-- ORDERS -->
   <section class="screen" id="s-orders">
-    <div class="greet"><h1 data-ar="طلباتي" data-en="My Orders">طلباتي</h1><p data-ar="تابعي طلباتك خطوة بخطوة" data-en="Track your orders step by step">تابعي طلباتك خطوة بخطوة</p></div>
-
-    <div class="order">
-      <div class="oh"><div><div class="id">#TB-1042</div><div class="date" data-ar="1 يوليو 2026" data-en="Jul 1, 2026">1 يوليو 2026</div></div><span class="pill print" data-ar="جاري الطباعة" data-en="Printing">جاري الطباعة</span></div>
-      <div class="oline"><span data-ar="مقاس عادي · لامع · ×12" data-en="Classic · Glossy · ×12">مقاس عادي · لامع · ×12</span><b>60 ر.س</b></div>
-      <div class="oline"><span data-ar="التوصيل" data-en="Delivery">التوصيل</span><b>20 ر.س</b></div>
-      <div class="otot"><span data-ar="الإجمالي" data-en="Total">الإجمالي</span><span style="color:var(--clay)">80 ر.س</span></div>
-      <div class="track"><div class="s on"></div><div class="s on"></div><div class="s"></div><div class="s"></div></div>
-      <div class="track-lbl" data-ar="التوصيل المتوقع: غداً 🚚" data-en="Est. delivery: tomorrow 🚚">التوصيل المتوقع: غداً 🚚</div>
-    </div>
-
-    <div class="order">
-      <div class="oh"><div><div class="id">#TB-1039 · 🎁</div><div class="date" data-ar="28 يونيو 2026" data-en="Jun 28, 2026">28 يونيو 2026</div></div><span class="pill ready" data-ar="جاهز للتسليم" data-en="Ready">جاهز للتسليم</span></div>
-      <div class="oline"><span data-ar="كبير · مطفي · ×6 (هدية)" data-en="Large · Matte · ×6 (gift)">كبير · مطفي · ×6 (هدية)</span><b>72 ر.س</b></div>
-      <div class="otot"><span data-ar="الإجمالي" data-en="Total">الإجمالي</span><span style="color:var(--clay)">92 ر.س</span></div>
-      <div class="track"><div class="s on"></div><div class="s on"></div><div class="s on"></div><div class="s"></div></div>
-    </div>
-
-    <div class="order" style="opacity:.7">
-      <div class="oh"><div><div class="id">#TB-1021</div><div class="date" data-ar="10 يونيو 2026" data-en="Jun 10, 2026">10 يونيو 2026</div></div><span class="pill done" data-ar="تم التسليم" data-en="Delivered">تم التسليم</span></div>
-      <div class="oline"><span data-ar="مربع · لامع · ×20 (أول طلب)" data-en="Square · Glossy · ×20 (first order)">مربع · لامع · ×20 (أول طلب)</span><b style="color:var(--green)" data-ar="مجاناً 🎉" data-en="Free 🎉">مجاناً 🎉</b></div>
+    <div class="empty">
+      <div class="big">📦</div>
+      <h2 data-ar="لا توجد طلبات بعد" data-en="No orders yet">لا توجد طلبات بعد</h2>
+      <p data-ar="اطبعي أول صورة — وتذكّري أن طلبكِ الأول مجاني 🎉" data-en="Print your first photo — and remember, your first order is free 🎉">اطبعي أول صورة — وتذكّري أن طلبكِ الأول مجاني 🎉</p>
     </div>
   </section>
 
-  <!-- ================= ACCOUNT ================= -->
+  <!-- ACCOUNT -->
   <section class="screen" id="s-acc">
     <div class="avatar">ن</div>
     <div class="acc-name">نورة</div>
     <div class="acc-mail">noura@email.com</div>
-    <div class="card" style="padding:16px"><div class="stats">
-      <div><div class="n" style="color:var(--ink)">3</div><div class="l" data-ar="طلبات" data-en="Orders">طلبات</div></div>
-      <div><div class="n" style="color:var(--ink)">38</div><div class="l" data-ar="صورة" data-en="Prints">صورة</div></div>
-      <div><div class="n" style="color:var(--clay)">✓</div><div class="l" data-ar="أول طلب مجاني" data-en="Free order">أول طلب مجاني</div></div>
-    </div></div>
-    <div class="list-row"><div class="ic">🔒</div><div><b data-ar="الخصوصية والأمان" data-en="Privacy & Security">الخصوصية والأمان</b><span data-ar="صورك محمية ومشفّرة" data-en="Protected & encrypted">صورك محمية ومشفّرة</span></div><span class="ch">›</span></div>
-    <div class="list-row"><div class="ic">📍</div><div><b data-ar="عناوين التوصيل" data-en="Delivery addresses">عناوين التوصيل</b><span data-ar="الرياض · 2 عناوين محفوظة" data-en="Riyadh · 2 saved">الرياض · 2 عناوين محفوظة</span></div><span class="ch">›</span></div>
-    <div class="list-row"><div class="ic">📄</div><div><b data-ar="سياسة الخصوصية والشروط" data-en="Privacy & Terms">سياسة الخصوصية والشروط</b><span>PDPL · GDPR</span></div><span class="ch">›</span></div>
-    <div class="list-row"><div class="ic">✉️</div><div><b data-ar="راسلي الدعم" data-en="Contact support">راسلي الدعم</b><span>support@laqta.sa</span></div><span class="ch">›</span></div>
+    <div class="statcard">
+      <div><div class="n">0</div><div class="l" data-ar="طلبات" data-en="Orders">طلبات</div></div>
+      <div><div class="n">0</div><div class="l" data-ar="صور مطبوعة" data-en="Prints">صور مطبوعة</div></div>
+      <div><div class="n" style="color:var(--clay)">—</div><div class="l" data-ar="الطلب المجاني" data-en="Free order">الطلب المجاني</div></div>
+    </div>
+    <div class="acc-sec" data-ar="الحساب" data-en="Account">الحساب</div>
+    <div class="list-row"><div class="ic">🔒</div><div><b data-ar="الخصوصية والأمان" data-en="Privacy & Security">الخصوصية والأمان</b><span data-ar="صورك محمية ومشفّرة" data-en="Protected & encrypted">صورك محمية ومشفّرة</span></div><span class="ch">‹</span></div>
+    <div class="list-row"><div class="ic">🔔</div><div><b data-ar="الإشعارات" data-en="Notifications">الإشعارات</b><span data-ar="تحديثات الطلب" data-en="Order updates">تحديثات الطلب</span></div><span class="ch">‹</span></div>
+    <div class="list-row"><div class="ic">📍</div><div><b data-ar="عناوين التوصيل المحفوظة" data-en="Saved delivery addresses">عناوين التوصيل المحفوظة</b><span data-ar="أسرع للطلبات القادمة" data-en="Faster next time">أسرع للطلبات القادمة</span></div><span class="ch">‹</span></div>
+    <div class="acc-sec" data-ar="المساعدة والتواصل" data-en="Help & Contact">المساعدة والتواصل</div>
+    <div class="list-row"><div class="ic">✉️</div><div><b data-ar="راسلي الدعم" data-en="Contact Support">راسلي الدعم</b><span>support@laqta.sa</span></div><span class="ch">‹</span></div>
+    <div class="list-row"><div class="ic">📄</div><div><b data-ar="سياسة الخصوصية والشروط" data-en="Privacy Policy & Terms">سياسة الخصوصية والشروط</b><span>PDPL · GDPR</span></div><span class="ch">‹</span></div>
     <button class="signout" data-ar="تسجيل الخروج" data-en="Sign out">تسجيل الخروج</button>
   </section>
 
-  <!-- Tab bar -->
   <nav class="tabbar">
-    <button class="tab on" data-scr="s-home" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-ar="الرئيسية" data-en="Home">الرئيسية</span></button>
-    <button class="tab" data-scr="s-print" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="9" width="12" height="8" rx="1"/><path d="M6 9V4h12v5M8 17v3h8v-3"/></svg><span data-ar="اطبعي" data-en="Print">اطبعي</span></button>
+    <button class="tab on" data-scr="s-home" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 15l5-4 4 3 4-5 5 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg><span data-ar="الرئيسية" data-en="Home">الرئيسية</span></button>
     <button class="tab" data-scr="s-orders" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7"/></svg><span data-ar="طلباتي" data-en="Orders">طلباتي</span></button>
     <button class="tab" data-scr="s-acc" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-ar="حسابي" data-en="Account">حسابي</span></button>
   </nav>
 </div>
-
 <script>
-  function go(btn){
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-    btn.classList.add('on');
-    showScreen(btn.dataset.scr);
-  }
-  function go2(id){
-    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on', t.dataset.scr===id));
-    showScreen(id);
-  }
-  function showScreen(id){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
-    document.getElementById(id).classList.add('on');
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
-  function selSize(el){ el.parentNode.querySelectorAll('.size').forEach(s=>s.classList.remove('sel')); el.classList.add('sel'); }
-  function selChip(el){ el.parentNode.querySelectorAll('.chip').forEach(s=>s.classList.remove('sel')); el.classList.add('sel'); }
-  function setLang(l){
-    document.documentElement.lang=l; document.documentElement.dir=l==='ar'?'rtl':'ltr';
-    document.getElementById('btnAr').classList.toggle('on',l==='ar');
-    document.getElementById('btnEn').classList.toggle('on',l==='en');
-    document.querySelectorAll('[data-ar]').forEach(e=>{ e.textContent = l==='ar'?e.dataset.ar:e.dataset.en; });
-  }
-  function toggleTheme(){
-    var d=document.documentElement.getAttribute('data-theme')==='dark';
-    document.documentElement.setAttribute('data-theme', d?'light':'dark');
-    document.getElementById('themeBtn').textContent = d?'🌙':'☀️';
-  }
+  function go(b){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));b.classList.add('on');
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));document.getElementById(b.dataset.scr).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
+  function setLang(l){document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
+    document.getElementById('btnAr').classList.toggle('on',l==='ar');document.getElementById('btnEn').classList.toggle('on',l==='en');
+    document.querySelectorAll('[data-ar]').forEach(e=>e.textContent=l==='ar'?e.dataset.ar:e.dataset.en);}
 </script>
 </body>
 </html>
