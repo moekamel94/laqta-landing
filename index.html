@@ -464,19 +464,26 @@ function openBundle(i){
   document.getElementById('bsheet').classList.add('on'); document.body.style.overflow='hidden'; window.scrollTo({top:0});
 }
 function closeBundle(){document.getElementById('bsheet').classList.remove('on');document.body.style.overflow='';}
-function bundleSend(){ closeBundle(); setTimeout(openFlow, 320); }
+function bundleSend(){
+  var b=BUNDLES[curBundle]; closeBundle();
+  setTimeout(function(){
+    F={step:2,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:'',bundle:b};
+    document.getElementById('flow').classList.add('on'); document.body.style.overflow='hidden';
+    renderFlow(); window.scrollTo({top:0});
+  }, 320);
+}
 
 /* ---------- flow state ---------- */
 let F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:''};
 
 function openFlow(){
-  F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:''};
+  F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:'',bundle:null};
   document.getElementById('flow').classList.add('on');
   document.body.style.overflow='hidden';
   renderFlow();
 }
 function closeFlow(){document.getElementById('flow').classList.remove('on');document.body.style.overflow='';}
-function flowBack(){ if(F.step===0){closeFlow();} else {F.step--; renderFlow();} }
+function flowBack(){ if(F.step===0 || (F.bundle && F.step===2)){closeFlow();} else {F.step--; renderFlow();} }
 
 /* ---------- photos ---------- */
 function pickFiles(){document.getElementById('fileInput').click();}
@@ -505,11 +512,15 @@ async function addPhotos(ev){
 function removePhoto(i){F.photos.splice(i,1);renderFlow();}
 
 /* ---------- pricing ---------- */
+const FREE_GIFT_CAP=40, FREE_DELIVERY_AT=199, MIN_ORDER=99;
 function isFirstOrder(){return getOrders().length===0;}
 function prints(){return F.photos.length*F.qty;}
-function itemsTotal(){return SIZES[F.size].price*prints();}
-function deliveryFee(){return F.fulfill==='delivery'?DELIVERY:0;}
-function payTotal(){return isFirstOrder()?deliveryFee():(itemsTotal()+deliveryFee());}
+function baseItems(){return F.bundle ? F.bundle.price : SIZES[F.size].price*prints();}
+function itemsTotal(){return baseItems();}
+function firstDiscount(){return isFirstOrder() ? Math.min(baseItems(), FREE_GIFT_CAP) : 0;}
+function itemsDue(){return Math.max(0, baseItems()-firstDiscount());}
+function deliveryFee(){ if(baseItems()>=FREE_DELIVERY_AT) return 0; return F.fulfill==='delivery'?DELIVERY:0; }
+function payTotal(){return itemsDue()+deliveryFee();}
 const sar=n=>T(n+' ر.س', 'SAR '+n);
 
 /* ---------- flow render ---------- */
@@ -566,7 +577,7 @@ function renderFlow(){
       <div class="chips">${FINISHES.map((f,i)=>`<div class="chip ${i===F.finish?'sel':''}" onclick="F.finish=${i};renderFlow()"><b>${isAr()?f.ar:f.en}</b><span>${isAr()?f.dAr:f.dEn}</span></div>`).join('')}</div>
       <div class="lbl">${T('عدد النسخ لكل صورة','Copies per photo')}</div>
       <div class="qty"><button onclick="F.qty=Math.max(1,F.qty-1);renderFlow()">−</button><b>${F.qty}</b><button onclick="F.qty++;renderFlow()">＋</button></div>
-      ${isFirstOrder()?`<div class="freebadge">🎉 ${T('طلبكِ الأول علينا — تدفعين التوصيل فقط','Your first order is on us — pay delivery only')}</div>`:''}`;
+      ${isFirstOrder()?`<div class="freebadge">🎉 ${T('خصم ٤٠ ر.س على أول طلب','SAR 40 off your first order')}</div>`:''}`;
     foot.disabled=false;
     foot.textContent=T('متابعة للدفع','Continue to payment');
   }
@@ -589,14 +600,17 @@ function renderFlow(){
         <p style="color:var(--faint);font-size:11px;margin-top:8px">${T('🔒 دفع تجريبي آمن — لن تُخصم أي مبالغ','🔒 Secure demo payment — nothing is charged')}</p>
       </div>
       <div class="summary">
-        <div class="r"><span>${T('عدد الصور','Prints')}</span><b>${prints()}</b></div>
-        <div class="r"><span>${T('المقاس','Size')}</span><b>${isAr()?SIZES[F.size].ar:SIZES[F.size].en} · ${isAr()?SIZES[F.size].dimAr:SIZES[F.size].dimEn}</b></div>
-        <div class="r"><span>${T('نوع الورق','Finish')}</span><b>${isAr()?FINISHES[F.finish].ar:FINISHES[F.finish].en}</b></div>
-        <div class="r"><span>${T('قيمة الطباعة','Prints subtotal')}</span><b class="${first?'strike':''}">${sar(itemsTotal())}</b></div>
-        <div class="r"><span>${T('التوصيل','Delivery')}</span><b>${F.fulfill==='delivery'?sar(DELIVERY):T('مجاناً','Free')}</b></div>
+        ${F.bundle
+          ? `<div class="r"><span>${T('الهدية','Gift')}</span><b>${isAr()?F.bundle.ar:F.bundle.en}</b></div>`
+          : `<div class="r"><span>${T('عدد الصور','Prints')}</span><b>${prints()}</b></div>
+             <div class="r"><span>${T('المقاس','Size')}</span><b>${isAr()?SIZES[F.size].ar:SIZES[F.size].en} · ${isAr()?SIZES[F.size].dimAr:SIZES[F.size].dimEn}</b></div>
+             <div class="r"><span>${T('نوع الورق','Finish')}</span><b>${isAr()?FINISHES[F.finish].ar:FINISHES[F.finish].en}</b></div>`}
+        <div class="r"><span>${F.bundle?T('قيمة الهدية','Gift price'):T('قيمة الطباعة','Prints subtotal')}</span><b>${sar(baseItems())}</b></div>
+        ${firstDiscount()>0?`<div class="r"><span>${T('خصم الطلب الأول 🎉','First-order gift 🎉')}</span><b>−${sar(firstDiscount())}</b></div>`:''}
+        <div class="r"><span>${T('التوصيل','Delivery')}</span><b>${deliveryFee()>0?sar(deliveryFee()):T('مجاناً','Free')}</b></div>
         <div class="r tot"><span>${T('الإجمالي','Total')}</span><span class="amt">${sar(payTotal())}</span></div>
       </div>
-      ${first?`<div class="freebadge">🎉 ${T('خصم الطلب الأول مُطبّق — الطباعة مجاناً','First-order gift applied — prints are free')}</div>`:''}`;
+      ${firstDiscount()>0?`<div class="freebadge">🎉 ${T('خصم الطلب الأول: '+firstDiscount()+' ر.س','First-order gift: SAR '+firstDiscount())}</div>`:''}`;
     foot.disabled=false;
     foot.textContent=T('تأكيد الطلب والدفع · '+payTotal()+' ر.س','Confirm & pay · SAR '+payTotal());
   }
@@ -647,6 +661,11 @@ function placeOrder(){
     fulfill:F.fulfill, total:payTotal(), free:isFirstOrder(),
     thumb:F.photos[0]
   };
+  if(F.bundle){
+    order.prints=1; order.sizeAr=F.bundle.ar; order.sizeEn=F.bundle.en;
+    order.dimAr=T('هدية','Gift'); order.dimEn='Gift';
+    order.finishAr='—'; order.finishEn='—'; order.thumb=F.bundle.img;
+  }
   const arr=getOrders(); arr.unshift(order); saveOrders(arr);
   F.lastOrder=order;
   renderOrders(); renderAccount();
