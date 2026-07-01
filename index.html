@@ -75,6 +75,33 @@
   .soon .s img{width:100%;height:96px;object-fit:cover;border-radius:16px;filter:saturate(.9)}
   .soon .s .n{font-size:12px;font-weight:700;color:var(--muted);margin-top:8px}
 
+  /* gift a moment */
+  .gchips{display:flex;gap:8px;overflow-x:auto;padding:0 0 4px;margin:0 0 14px;max-width:100%}
+  .gchip{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:999px;font-weight:700;font-size:13px;color:var(--ink)}
+  .bundles{display:flex;gap:14px;overflow-x:auto;padding-bottom:6px;max-width:100%}
+  .bcard{flex:0 0 240px;background:var(--surface);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer}
+  .bcard .bimg{position:relative;height:140px}
+  .bcard .bimg img{width:100%;height:100%;object-fit:cover;object-position:top}
+  .bcard .bimg .bp{position:absolute;top:10px;inset-inline-end:10px;background:var(--clay);color:#fff;font-weight:700;font-size:13px;padding:5px 10px;border-radius:999px}
+  .bcard .bb{padding:14px}.bcard .bb b{font-size:16px}.bcard .bb p{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}
+
+  /* bundle detail sheet */
+  .bsheet{position:fixed;inset:0;z-index:110;background:var(--bg);display:none;flex-direction:column;overflow-y:auto}
+  .bsheet.on{display:flex;animation:slideup .32s cubic-bezier(.2,.8,.2,1)}
+  .bhead{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:12px;padding:16px 18px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .bhead .bk{background:var(--warm);border:none;width:38px;height:38px;border-radius:50%;font-size:16px;cursor:pointer;color:var(--ink)}
+  .bhead h2{font-size:18px;font-weight:700}
+  .bbody{padding-bottom:120px}
+  .bhero{position:relative;height:250px;margin:16px;border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+  .bhero img{width:100%;height:100%;object-fit:cover;object-position:top}
+  .bhero .t{position:absolute;bottom:0;inset-inline:0;padding:18px;color:#fff;font-size:24px;font-weight:700;background:linear-gradient(to top,rgba(0,0,0,.65),transparent)}
+  .btag{color:var(--muted);font-size:15px;line-height:1.7;padding:0 20px;margin-bottom:6px}
+  .binc{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;margin:14px 16px;box-shadow:var(--shadow)}
+  .binc .r{display:flex;align-items:center;gap:12px;padding:7px 0;font-size:15px}.binc .r .c{color:var(--clay);font-weight:700}
+  .bfoot{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;padding:12px 18px calc(14px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(14px);border-top:1px solid var(--border);display:flex;align-items:center;gap:14px}
+  .bfoot .bprice span{display:block;color:var(--muted);font-size:11px}
+  .bfoot .btn{margin-top:0;flex:1}
+
   .trow{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;margin:0;max-width:100%}
   .tcard{flex:0 0 230px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
   .tcard .st{color:var(--star);font-size:12px;letter-spacing:2px}
@@ -264,6 +291,10 @@
       </div>
     </div>
 
+    <div class="sec"><h3 data-ar="أهدي لحظة" data-en="Gift a moment">أهدي لحظة</h3><p data-ar="هدايا مطبوعة لكل مناسبة — تجهّزها نساء" data-en="Printed gifts for every occasion — made by women">هدايا مطبوعة لكل مناسبة — تجهّزها نساء</p></div>
+    <div class="gchips" id="gchips"></div>
+    <div class="bundles" id="bundles"></div>
+
     <div class="soon-lbl" data-ar="قريباً في لقطة" data-en="Coming soon to Laqta">قريباً في لقطة</div>
     <div class="soon">
       <div class="s"><img src="img/photobook.jpg" alt=""><div class="n" data-ar="كتاب صور" data-en="Photobooks">كتاب صور</div></div>
@@ -311,6 +342,13 @@
   <div class="home-indicator"></div>
 </div>
 
+<!-- ===== gift bundle detail sheet ===== -->
+<div class="bsheet" id="bsheet">
+  <div class="bhead"><button class="bk" onclick="closeBundle()">✕</button><h2 id="bTitle"></h2></div>
+  <div class="bbody" id="bBody"></div>
+  <div class="bfoot" id="bFoot"></div>
+</div>
+
 <!-- ===== order flow overlay ===== -->
 <div class="flow" id="flow">
   <div class="flow-head">
@@ -351,7 +389,8 @@ function setLang(l){
   document.documentElement.dir=l==='ar'?'rtl':'ltr';
   document.querySelectorAll('[data-ar]').forEach(e=>e.textContent=l==='ar'?e.dataset.ar:e.dataset.en);
   updateNav(currentScreen());
-  renderOrders(); renderAccount();
+  renderOrders(); renderAccount(); renderGift();
+  if(document.getElementById('bsheet').classList.contains('on')) openBundle(curBundle);
   if(document.getElementById('flow').classList.contains('on')) renderFlow();
 }
 
@@ -384,6 +423,48 @@ const FINISHES=[
   {ar:'لاستر',en:'Lustre',dAr:'توازن بينهما',dEn:'Balanced'},
 ];
 const DELIVERY=20;
+
+/* ---------- occasions + gift bundles (mirrors the app) ---------- */
+const OCCASIONS=[
+  {ar:'العيد',en:'Eid',emoji:'🌙'},
+  {ar:'اليوم الوطني',en:'National Day',emoji:'🇸🇦'},
+  {ar:'يوم التأسيس',en:'Founding Day',emoji:'🏛️'},
+  {ar:'زواج',en:'Wedding',emoji:'💍'},
+  {ar:'مولود',en:'Newborn',emoji:'👶'},
+  {ar:'تخرّج',en:'Graduation',emoji:'🎓'},
+  {ar:'لأمي',en:'For Mama',emoji:'🎁'},
+];
+const BUNDLES=[
+  {ar:'صندوق المولود',en:'New Baby Box',tagAr:'أول صور المولود، مطبوعة ومغلّفة بحب.',tagEn:'Baby\'s first photos, printed and wrapped with love.',img:'img/prints.jpg',price:149,
+   incAr:['١٠ صور مقاس كبير','إطار خشبي فاخر','بطاقة تهنئة بالعربية','تغليف هدية'],incEn:['10 large prints','Premium wood frame','Arabic greeting card','Gift wrapping']},
+  {ar:'جدارية العرس',en:'Wedding Wall Set',tagAr:'لحظات العمر معلّقة على جدار مجلسك.',tagEn:'Your milestone moments, framed for the majlis wall.',img:'img/wallart.jpg',price:249,
+   incAr:['٣ لوحات جدارية','تصميم بخط عربي','تعليق جاهز','توصيل مجاني'],incEn:['3 wall-art panels','Arabic calligraphy design','Ready to hang','Free delivery']},
+  {ar:'هدية العيد والأم',en:'Eid & Mother Gift Box',tagAr:'كتاب صور يجمع أحلى ذكرياتكم — هدية لا تُنسى.',tagEn:'A photo book of your best memories — an unforgettable gift.',img:'img/gift.jpg',price:149,
+   incAr:['كتاب صور ٢٠ صفحة','غلاف فاخر','إهداء بالعربية','تغليف هدية'],incEn:['20-page photo book','Premium cover','Arabic dedication','Gift wrapping']},
+];
+let curBundle=0;
+function renderGift(){
+  var g=document.getElementById('gchips'); if(!g) return;
+  g.innerHTML=OCCASIONS.map(o=>`<div class="gchip"><span>${o.emoji}</span><span>${isAr()?o.ar:o.en}</span></div>`).join('');
+  document.getElementById('bundles').innerHTML=BUNDLES.map((b,i)=>`
+    <div class="bcard" onclick="openBundle(${i})">
+      <div class="bimg"><img src="${b.img}" alt=""><span class="bp">${sar(b.price)}</span></div>
+      <div class="bb"><b>${isAr()?b.ar:b.en}</b><p>${isAr()?b.tagAr:b.tagEn}</p></div>
+    </div>`).join('');
+}
+function openBundle(i){
+  curBundle=i; var b=BUNDLES[i];
+  document.getElementById('bTitle').textContent=T('تفاصيل الهدية','Gift details');
+  document.getElementById('bBody').innerHTML=`
+    <div class="bhero"><img src="${b.img}" alt=""><div class="t">${isAr()?b.ar:b.en}</div></div>
+    <div class="btag">${isAr()?b.tagAr:b.tagEn}</div>
+    <div class="binc">${(isAr()?b.incAr:b.incEn).map(x=>`<div class="r"><span class="c">✓</span><span>${x}</span></div>`).join('')}</div>
+    <div class="btag" style="font-size:13px">🔒 ${T('تجهّزها نساء، وتوصل مغلّفة بخصوصية.','Prepared by women, delivered privately wrapped.')}</div>`;
+  document.getElementById('bFoot').innerHTML=`<div class="bprice"><span>${T('سعر الهدية','Gift price')}</span><b style="font-size:22px;color:var(--clay)">${sar(b.price)}</b></div><button class="btn" onclick="bundleSend()">${T('أرسلي الهدية 🎁','Send this gift 🎁')}</button>`;
+  document.getElementById('bsheet').classList.add('on'); document.body.style.overflow='hidden'; window.scrollTo({top:0});
+}
+function closeBundle(){document.getElementById('bsheet').classList.remove('on');document.body.style.overflow='';}
+function bundleSend(){ closeBundle(); setTimeout(openFlow, 320); }
 
 /* ---------- flow state ---------- */
 let F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:''};
@@ -601,7 +682,7 @@ function renderAccount(){
 }
 
 /* init */
-updateNav('s-home'); renderOrders(); renderAccount();
+updateNav('s-home'); renderOrders(); renderAccount(); renderGift();
 </script>
 </body>
 </html>
