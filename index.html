@@ -17,7 +17,8 @@
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{font-family:'Zawi','Aeonik',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
   [dir=ltr] body{font-family:'Aeonik',sans-serif}
-  .app{max-width:500px;margin:0 auto;min-height:100vh;padding-bottom:104px;position:relative}
+  .app{max-width:500px;margin:0 auto;min-height:100vh;padding-bottom:104px;position:relative;overflow-x:hidden}
+  html,body{overflow-x:hidden}
 
   .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:center;position:relative;
           padding:16px 20px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
@@ -68,7 +69,7 @@
   .soon .s .n{font-size:12px;font-weight:700;color:var(--muted);margin-top:8px}
 
   /* testimonials */
-  .trow{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;margin:0 -18px;padding-inline:18px}
+  .trow{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;margin:0;max-width:100%}
   .tcard{flex:0 0 230px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
   .tcard .st{color:var(--star);font-size:12px;letter-spacing:2px}
   .tcard q{display:block;font-size:13px;color:var(--muted);line-height:1.6;margin:10px 0;min-height:64px}
