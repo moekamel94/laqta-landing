@@ -83,7 +83,7 @@
   .tcard .av{width:34px;height:34px;border-radius:50%;background:var(--clay-light);color:var(--clay);display:grid;place-items:center;font-weight:700}
   .tcard .who b{font-size:12px}.tcard .who span{color:var(--faint);font-size:11px;display:block}
 
-  .empty{text-align:center;padding:70px 24px}
+  .empty{text-align:center;padding:22vh 24px 40px}
   .empty .big{width:96px;height:96px;border-radius:50%;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;font-size:42px;margin:0 auto 22px}
   .empty h2{font-size:22px;font-weight:500;margin-bottom:8px}.empty p{color:var(--muted);line-height:1.6}
 
@@ -106,7 +106,32 @@
   .list-row .ic{width:34px;height:34px;border-radius:9px;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;font-size:15px}
   .list-row b{font-size:15px}.list-row span{color:var(--muted);font-size:12px;display:block}
   .list-row .ch{margin-inline-start:auto;color:var(--faint)}
-  .signout{width:100%;padding:15px;border:none;background:color-mix(in srgb,#C62828 8%,transparent);color:#C62828;font-family:inherit;font-weight:700;border-radius:15px;margin-top:8px;cursor:pointer}
+  .signout{width:100%;padding:15px;border:none;background:color-mix(in srgb,#C62828 8%,transparent);color:#C62828;font-family:inherit;font-weight:700;border-radius:15px;margin-top:16px;cursor:pointer}
+
+  /* per-tab nav */
+  .navtitle{font-family:'Zawi','Aeonik',sans-serif;font-weight:700;font-size:19px}
+  [dir=ltr] .navtitle{font-family:'Aeonik',sans-serif}
+  .nav-edit{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--clay);background:none;border:none;font-family:inherit;font-weight:600;font-size:16px;cursor:pointer}
+  .lang-btn{position:absolute;right:18px;top:50%;transform:translateY(-50%);min-width:42px;height:42px;padding:0 8px;border-radius:50%;background:var(--clay-bg);color:var(--clay);border:none;font-family:'Aeonik';font-weight:700;font-size:14px;cursor:pointer}
+
+  /* account (app-accurate) */
+  .profile-card{background:var(--surface);border-radius:24px;padding:26px 20px;box-shadow:var(--shadow);text-align:center;margin-top:6px}
+  .profile-card .pav{width:94px;height:94px;border-radius:50%;background:var(--clay-light);margin:0 auto 14px}
+  .profile-card .pname{font-size:22px;font-weight:700}
+  .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+  .stat3{background:var(--surface);border-radius:20px;padding:18px 6px;box-shadow:var(--shadow);text-align:center}
+  .stat3 .si{color:var(--faint);margin-bottom:9px;display:flex;justify-content:center}
+  .stat3 .si svg{width:26px;height:26px}
+  .stat3 .sn{font-family:'Aeonik';font-weight:700;font-size:23px}
+  .stat3 .sl{color:var(--muted);font-size:12px;margin-top:4px}
+  .group{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:6px}
+  .grow{display:flex;align-items:center;gap:14px;padding:16px}
+  .grow+.grow{border-top:1px solid var(--border)}
+  .grow .gi{width:40px;height:40px;border-radius:11px;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;flex-shrink:0}
+  .grow .gi svg{width:20px;height:20px}
+  .grow .gt{flex:1;min-width:0}.grow .gt b{font-size:16px}.grow .gt span{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+  .grow .gc{color:var(--faint);font-size:20px}
+  .empty .big svg{width:44px;height:44px}
 
   .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;
           background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(20px);
@@ -185,10 +210,7 @@
         <svg width="26" height="13" viewBox="0 0 26 13"><rect x="1" y="1" width="21" height="11" rx="3" fill="none" stroke="#000" stroke-opacity=".4"/><rect x="2.5" y="2.5" width="18" height="8" rx="1.6" fill="#000"/><rect x="23.4" y="4.5" width="1.8" height="4" rx="1" fill="#000" fill-opacity=".4"/></svg>
       </span>
     </div>
-    <div class="topbar">
-      <span class="wm"><span class="en">Laq<span class="a">ta</span></span><span class="ar">لق<span class="a">طة</span></span></span>
-      <div class="lang"><button id="btnAr" class="on" onclick="setLang('ar')">عربي</button><button id="btnEn" onclick="setLang('en')">EN</button></div>
-    </div>
+    <div class="topbar" id="navrow"></div>
   </header>
 
   <!-- HOME -->
@@ -241,22 +263,27 @@
 
   <!-- ACCOUNT -->
   <section class="screen" id="s-acc">
-    <div class="avatar">ن</div>
-    <div class="acc-name">نورة</div>
-    <div class="acc-mail">noura@email.com</div>
-    <div class="statcard">
-      <div><div class="n" id="stOrders">0</div><div class="l" data-ar="طلبات" data-en="Orders">طلبات</div></div>
-      <div><div class="n" id="stPrints">0</div><div class="l" data-ar="صور مطبوعة" data-en="Prints">صور مطبوعة</div></div>
-      <div><div class="n" id="stFree" style="color:var(--clay)">🎁</div><div class="l" data-ar="الطلب المجاني" data-en="Free order">الطلب المجاني</div></div>
+    <div class="profile-card">
+      <div class="pav"></div>
+      <div class="pname" data-ar="مستخدمة لقطة" data-en="Laqta User">مستخدمة لقطة</div>
+    </div>
+    <div class="stats3">
+      <div class="stat3"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div><div class="sn" id="stOrders">0</div><div class="sl" data-ar="طلب مكتمل" data-en="Completed">طلب مكتمل</div></div>
+      <div class="stat3"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l5-4 4 3 3-2 4 3"/></svg></div><div class="sn" id="stPrints">0</div><div class="sl" data-ar="صورة مطبوعة" data-en="Prints">صورة مطبوعة</div></div>
+      <div class="stat3"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13"/><path d="M12 8S10.5 3 8 4s.5 4 4 4zM12 8s1.5-5 4-4-.5 4-4 4z"/></svg></div><div class="sn" id="stFree">–</div><div class="sl" data-ar="الطلب المجاني" data-en="Free order">الطلب المجاني</div></div>
     </div>
     <div class="acc-sec" data-ar="الحساب" data-en="Account">الحساب</div>
-    <div class="list-row"><div class="ic">🔒</div><div><b data-ar="الخصوصية والأمان" data-en="Privacy & Security">الخصوصية والأمان</b><span data-ar="صورك محمية ومشفّرة" data-en="Protected & encrypted">صورك محمية ومشفّرة</span></div><span class="ch">‹</span></div>
-    <div class="list-row"><div class="ic">🔔</div><div><b data-ar="الإشعارات" data-en="Notifications">الإشعارات</b><span data-ar="تحديثات الطلب" data-en="Order updates">تحديثات الطلب</span></div><span class="ch">‹</span></div>
-    <div class="list-row"><div class="ic">📍</div><div><b data-ar="عناوين التوصيل المحفوظة" data-en="Saved delivery addresses">عناوين التوصيل المحفوظة</b><span data-ar="أسرع للطلبات القادمة" data-en="Faster next time">أسرع للطلبات القادمة</span></div><span class="ch">‹</span></div>
+    <div class="group">
+      <div class="grow"><div class="gi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l8 3v6c0 5-3.4 8.6-8 11-4.6-2.4-8-6-8-11V5l8-3z"/></svg></div><div class="gt"><b data-ar="الخصوصية والأمان" data-en="Privacy & Security">الخصوصية والأمان</b><span data-ar="صورك محمية ومشفّرة" data-en="Protected & encrypted">صورك محمية ومشفّرة</span></div><span class="gc">‹</span></div>
+      <div class="grow"><div class="gi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6 6 0 0 0-6 6v3.5L4 15v1h16v-1l-2-3.5V8a6 6 0 0 0-6-6zM9.5 19a2.5 2.5 0 0 0 5 0z"/></svg></div><div class="gt"><b data-ar="الإشعارات" data-en="Notifications">الإشعارات</b><span data-ar="تحديثات الطلب" data-en="Order updates">تحديثات الطلب</span></div><span class="gc">‹</span></div>
+      <div class="grow"><div class="gi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3L3 10.5l7.2 2.3L12.5 20 21 3z"/></svg></div><div class="gt"><b data-ar="عناوين التوصيل المحفوظة" data-en="Saved delivery addresses">عناوين التوصيل المحفوظة</b><span data-ar="أسرع للطلبات القادمة" data-en="Faster next time">أسرع للطلبات القادمة</span></div><span class="gc">‹</span></div>
+    </div>
     <div class="acc-sec" data-ar="المساعدة والتواصل" data-en="Help & Contact">المساعدة والتواصل</div>
-    <div class="list-row"><div class="ic">✉️</div><div><b data-ar="راسلي الدعم" data-en="Contact Support">راسلي الدعم</b><span>support@laqta.sa</span></div><span class="ch">‹</span></div>
-    <div class="list-row"><div class="ic">📄</div><div><b data-ar="سياسة الخصوصية والشروط" data-en="Privacy Policy & Terms">سياسة الخصوصية والشروط</b><span>PDPL · GDPR</span></div><span class="ch">‹</span></div>
-    <button class="signout" onclick="resetDemo()" data-ar="تسجيل الخروج (تصفير التجربة)" data-en="Sign out (reset demo)">تسجيل الخروج (تصفير التجربة)</button>
+    <div class="group">
+      <div class="grow"><div class="gi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2l-10 6L2 6z"/><path d="M2 8.3V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.3l-10 6-10-6z"/></svg></div><div class="gt"><b data-ar="راسلي الدعم" data-en="Contact Support">راسلي الدعم</b><span data-ar="support@taba3.sa · نرد خلال ساعات" data-en="support@taba3.sa · We reply within hours">support@taba3.sa · نرد خلال ساعات</span></div><span class="gc">‹</span></div>
+      <div class="grow"><div class="gi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h7l5 5v15H6z"/></svg></div><div class="gt"><b data-ar="سياسة الخصوصية والشروط" data-en="Privacy Policy & Terms">سياسة الخصوصية والشروط</b><span>PDPL · GDPR</span></div><span class="gc">‹</span></div>
+    </div>
+    <button class="signout" onclick="resetDemo()" data-ar="تسجيل الخروج" data-en="Sign out">تسجيل الخروج</button>
   </section>
 
   <nav class="tabbar">
@@ -287,13 +314,26 @@ let LANG='ar';
 const isAr=()=>LANG==='ar';
 function T(ar,en){return isAr()?ar:en;}
 
+function currentScreen(){var s=document.querySelector('.screen.on');return s?s.id:'s-home';}
+function updateNav(scr){
+  var n=document.getElementById('navrow');
+  if(scr==='s-orders'){
+    n.innerHTML='<span class="navtitle">'+T('طلباتي','Orders')+'</span>';
+  } else if(scr==='s-acc'){
+    n.innerHTML='<button class="nav-edit">'+T('تعديل','Edit')+'</button>'
+      +'<span class="navtitle">'+T('حسابي','Account')+'</span>'
+      +'<button class="lang-btn" onclick="toggleLang()">'+T('EN','عربي')+'</button>';
+  } else {
+    n.innerHTML='<span class="wm"><span class="en">Laq<span class="a">ta</span></span><span class="ar">لق<span class="a">طة</span></span></span>';
+  }
+}
+function toggleLang(){ setLang(LANG==='ar'?'en':'ar'); }
 function setLang(l){
   LANG=l;
   document.documentElement.lang=l;
   document.documentElement.dir=l==='ar'?'rtl':'ltr';
-  document.getElementById('btnAr').classList.toggle('on',l==='ar');
-  document.getElementById('btnEn').classList.toggle('on',l==='en');
   document.querySelectorAll('[data-ar]').forEach(e=>e.textContent=l==='ar'?e.dataset.ar:e.dataset.en);
+  updateNav(currentScreen());
   renderOrders(); renderAccount();
   if(document.getElementById('flow').classList.contains('on')) renderFlow();
 }
@@ -303,6 +343,7 @@ function go(b){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));b.classList.add('on');
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.getElementById(b.dataset.scr).classList.add('on');
+  updateNav(b.dataset.scr);
   if(b.dataset.scr==='s-orders') renderOrders();
   if(b.dataset.scr==='s-acc') renderAccount();
   window.scrollTo({top:0,behavior:'smooth'});
@@ -498,10 +539,9 @@ function renderOrders(){
   const box=document.getElementById('ordersBox');
   const orders=getOrders();
   if(!orders.length){
-    box.innerHTML=`<div class="empty"><div class="big">📦</div>
+    box.innerHTML=`<div class="empty"><div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div>
       <h2>${T('لا توجد طلبات بعد','No orders yet')}</h2>
-      <p>${T('اطبعي أول صورة — وتذكّري أن طلبكِ الأول مجاني 🎉','Print your first photo — and remember, your first order is free 🎉')}</p>
-      <button class="btn" style="max-width:280px;margin:22px auto 0" onclick="openFlow()">${T('🖼️ ابدئي الآن','🖼️ Start now')}</button></div>`;
+      <p>${T('اطبعي أول صورة – وتذكّري أن طلبك الأول مجاني 🎉','Print your first photo – your first order is free 🎉')}</p></div>`;
     return;
   }
   box.innerHTML=`<div class="sec" style="margin-top:6px"><h3>${T('طلباتي','My Orders')}</h3><p>${T(orders.length+' طلب',orders.length+' order'+(orders.length>1?'s':''))}</p></div>`+
@@ -519,11 +559,11 @@ function renderAccount(){
   const orders=getOrders();
   document.getElementById('stOrders').textContent=orders.length;
   document.getElementById('stPrints').textContent=orders.reduce((s,o)=>s+o.prints,0);
-  document.getElementById('stFree').textContent=orders.length? T('مُستخدم','Used') : '🎁';
+  document.getElementById('stFree').textContent=orders.length? T('مُستخدم','Used') : '–';
 }
 
 /* init */
-renderOrders(); renderAccount();
+updateNav('s-home'); renderOrders(); renderAccount();
 </script>
 </body>
 </html>
