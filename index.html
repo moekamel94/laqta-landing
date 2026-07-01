@@ -15,10 +15,10 @@
     --shadow:0 10px 28px rgba(20,14,10,.06);--star:#D4A017;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{overflow-x:hidden}
   body{font-family:'Zawi','Aeonik',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
   [dir=ltr] body{font-family:'Aeonik',sans-serif}
   .app{max-width:500px;margin:0 auto;min-height:100vh;padding-bottom:104px;position:relative;overflow-x:hidden}
-  html,body{overflow-x:hidden}
 
   .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:center;position:relative;
           padding:16px 20px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
@@ -34,7 +34,6 @@
   .greet h1{font-size:26px;font-weight:500}
   .greet p{color:var(--muted);font-size:16px;margin-top:3px}
 
-  /* Hero (matches app) */
   .hero{position:relative;border-radius:30px;overflow:hidden;box-shadow:var(--shadow);height:420px}
   .hero>img{width:100%;height:100%;object-fit:cover;display:block}
   .hero .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,.15) 55%,transparent)}
@@ -44,11 +43,11 @@
   .btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:var(--clay);color:#fff;border:none;
        font-family:inherit;font-weight:700;font-size:17px;padding:17px;border-radius:16px;cursor:pointer;box-shadow:0 12px 26px rgba(200,75,30,.32);margin-top:16px}
   .btn:active{transform:scale(.98)}
+  .btn:disabled{opacity:.45;box-shadow:none;cursor:not-allowed}
 
   .sec{margin:30px 4px 14px}
   .sec h3{font-size:22px;font-weight:500}.sec p{color:var(--muted);font-size:14px;margin-top:2px}
 
-  /* Big product card (matches app primaryShowcase) */
   .feature{background:var(--surface);border-radius:30px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer}
   .feature .fimg{position:relative;height:220px}
   .feature .fimg img{width:100%;height:100%;object-fit:cover}
@@ -61,14 +60,12 @@
   .feature .fb .pr b{color:var(--clay);font-size:18px}
   .feature .fb .pr .arrow{margin-inline-start:auto;color:var(--clay);font-size:26px}
 
-  /* coming soon strip */
   .soon-lbl{color:var(--faint);font-weight:700;font-size:13px;margin:26px 4px 12px}
   .soon{display:flex;gap:12px}
   .soon .s{flex:1;text-align:center}
   .soon .s img{width:100%;height:96px;object-fit:cover;border-radius:16px;filter:saturate(.9)}
   .soon .s .n{font-size:12px;font-weight:700;color:var(--muted);margin-top:8px}
 
-  /* testimonials */
   .trow{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;margin:0;max-width:100%}
   .tcard{flex:0 0 230px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
   .tcard .st{color:var(--star);font-size:12px;letter-spacing:2px}
@@ -77,12 +74,19 @@
   .tcard .av{width:34px;height:34px;border-radius:50%;background:var(--clay-light);color:var(--clay);display:grid;place-items:center;font-weight:700}
   .tcard .who b{font-size:12px}.tcard .who span{color:var(--faint);font-size:11px;display:block}
 
-  /* orders empty (matches app) */
   .empty{text-align:center;padding:70px 24px}
   .empty .big{width:96px;height:96px;border-radius:50%;background:var(--clay-bg);color:var(--clay);display:grid;place-items:center;font-size:42px;margin:0 auto 22px}
   .empty h2{font-size:22px;font-weight:500;margin-bottom:8px}.empty p{color:var(--muted);line-height:1.6}
 
-  /* account (matches ProfileView) */
+  /* orders list */
+  .ordercard{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px;display:flex;gap:14px;align-items:center}
+  .ordercard img{width:64px;height:64px;border-radius:12px;object-fit:cover;background:var(--warm)}
+  .ordercard .oi{flex:1;min-width:0}
+  .ordercard .oi b{font-size:15px}.ordercard .oi span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+  .ordercard .rt{text-align:center}
+  .ordercard .status{display:inline-block;background:var(--clay-bg);color:var(--clay-deep);font-weight:700;font-size:11px;padding:5px 10px;border-radius:999px}
+  .ordercard .total{color:var(--clay);font-weight:700;font-size:15px;margin-top:6px}
+
   .avatar{width:80px;height:80px;border-radius:50%;background:var(--clay-light);color:var(--clay);display:grid;place-items:center;font-family:'Aeonik';font-weight:700;font-size:30px;margin:14px auto 12px}
   .acc-name{text-align:center;font-size:20px;font-weight:700}
   .acc-mail{text-align:center;color:var(--muted);margin-bottom:18px;font-size:14px}
@@ -99,6 +103,64 @@
           background:var(--surface);border:1px solid var(--border);border-radius:26px;display:flex;justify-content:space-around;padding:9px 6px;box-shadow:0 16px 44px rgba(0,0,0,.16);z-index:30}
   .tab{border:none;background:none;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--faint);font-size:11px;font-weight:700;cursor:pointer;padding:7px 20px;border-radius:16px}
   .tab svg{width:23px;height:23px}.tab.on{color:var(--clay);background:var(--clay-bg)}
+
+  /* ===== order flow ===== */
+  .flow{position:fixed;inset:0;z-index:100;background:var(--bg);display:none;flex-direction:column;overflow-y:auto}
+  .flow.on{display:flex;animation:slideup .32s cubic-bezier(.2,.8,.2,1)}
+  @keyframes slideup{from{transform:translateY(100%)}to{transform:none}}
+  .flow-head{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:12px;padding:16px 18px;
+             background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .flow-head .bk{background:var(--warm);border:none;width:38px;height:38px;border-radius:50%;font-size:19px;cursor:pointer;color:var(--ink);display:grid;place-items:center}
+  .flow-head h2{font-size:18px;font-weight:700}
+  .flow-body{padding:18px;max-width:500px;margin:0 auto;width:100%;padding-bottom:130px}
+  .steps{display:flex;gap:6px;margin-bottom:20px}
+  .steps .st{flex:1;height:4px;border-radius:2px;background:var(--border);transition:.3s}.steps .st.on{background:var(--clay)}
+
+  .dropzone{border:2px dashed var(--clay);border-radius:20px;background:var(--clay-bg);padding:40px 20px;text-align:center;cursor:pointer;color:var(--clay-deep)}
+  .dropzone .ic{font-size:42px;margin-bottom:12px}
+  .dropzone b{display:block;font-size:17px}.dropzone p{color:var(--muted);font-size:13px;margin-top:4px}
+  .thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+  .thumbs .th{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:var(--warm)}
+  .thumbs .th img{width:100%;height:100%;object-fit:cover}
+  .thumbs .th .x{position:absolute;top:5px;inset-inline-end:5px;background:rgba(0,0,0,.62);color:#fff;border:none;width:24px;height:24px;border-radius:50%;font-size:13px;cursor:pointer;line-height:1;display:grid;place-items:center}
+  .thumbs .add{border:1.5px dashed var(--border);border-radius:14px;display:grid;place-items:center;color:var(--clay);font-size:30px;cursor:pointer;background:var(--surface)}
+
+  .preview{width:100%;height:200px;border-radius:18px;object-fit:cover;margin-bottom:8px;background:var(--warm)}
+  .lbl{font-weight:700;font-size:16px;margin:20px 2px 4px}
+  .opt{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+  .opt .o{display:flex;align-items:center;gap:12px;padding:14px;border:1.6px solid var(--border);border-radius:16px;background:var(--surface);cursor:pointer;transition:.15s}
+  .opt .o.sel{border-color:var(--clay);background:var(--clay-bg)}
+  .opt .o .oi b{font-size:15px}.opt .o .oi span{color:var(--muted);font-size:12px;display:block}
+  .opt .o .price{margin-inline-start:auto;color:var(--clay);font-weight:700;font-size:16px;white-space:nowrap}
+  .chips{display:flex;gap:10px;margin-top:10px}
+  .chip{flex:1;padding:14px 10px;border:1.6px solid var(--border);border-radius:16px;background:var(--surface);cursor:pointer;text-align:center;transition:.15s}
+  .chip.sel{border-color:var(--clay);background:var(--clay-bg)}
+  .chip b{font-size:15px}.chip span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+  .qty{display:flex;align-items:center;gap:18px;margin-top:12px}
+  .qty button{width:44px;height:44px;border-radius:13px;border:1.6px solid var(--border);background:var(--surface);font-size:22px;cursor:pointer;color:var(--clay);font-family:inherit}
+  .qty b{font-size:20px;min-width:34px;text-align:center}
+  .field{margin-top:14px}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:700}
+  .field input{width:100%;padding:14px;border:1.6px solid var(--border);border-radius:14px;font-family:inherit;font-size:15px;background:var(--surface);color:var(--ink)}
+  .field input:focus{outline:none;border-color:var(--clay)}
+  .summary{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;margin-top:18px;box-shadow:var(--shadow)}
+  .summary .r{display:flex;justify-content:space-between;padding:7px 0;font-size:14px;color:var(--muted)}
+  .summary .r b{color:var(--ink)}
+  .summary .r.tot{border-top:1px solid var(--border);margin-top:6px;padding-top:12px;color:var(--ink);font-weight:700;font-size:18px}
+  .summary .r.tot .amt{color:var(--clay)}
+  .strike{text-decoration:line-through;color:var(--faint)}
+  .freebadge{background:var(--clay-light);color:var(--clay-deep);font-weight:700;font-size:14px;padding:12px 14px;border-radius:14px;text-align:center;margin-top:16px}
+  .paycard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:14px;box-shadow:var(--shadow)}
+  .paycard .brow{display:flex;gap:10px}
+  .flow-foot{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;padding:12px 18px calc(14px + env(safe-area-inset-bottom));
+             background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(14px);border-top:1px solid var(--border)}
+  .flow-foot .btn{margin-top:0}
+  .success{text-align:center;padding:44px 20px}
+  .success .ok{width:100px;height:100px;border-radius:50%;background:var(--clay);color:#fff;display:grid;place-items:center;font-size:52px;margin:0 auto 22px;box-shadow:0 14px 34px rgba(200,75,30,.35)}
+  .success h2{font-size:25px;font-weight:700;margin-bottom:10px}
+  .success p{color:var(--muted);line-height:1.6}
+  .success .ordno{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin:22px 0;font-weight:700;box-shadow:var(--shadow)}
+  .success .ordno span{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -121,13 +183,13 @@
       <div class="c">
         <span class="badge" data-ar="🎉 أول طلب هدية منّا" data-en="🎉 First order on us">🎉 أول طلب هدية منّا</span>
         <h2 data-ar="حوّلي لحظاتكِ الغالية إلى صور تلمسينها" data-en="Turn your dearest moments into prints you can hold">حوّلي لحظاتكِ الغالية إلى صور تلمسينها</h2>
-        <button class="btn" onclick="alert('اختاري صورك من مكتبتك — في النسخة الكاملة')"><span>🖼️</span><span data-ar="اختاري صوركِ" data-en="Choose your photos">اختاري صوركِ</span></button>
+        <button class="btn" onclick="openFlow()"><span>🖼️</span><span data-ar="اختاري صوركِ" data-en="Choose your photos">اختاري صوركِ</span></button>
       </div>
     </div>
 
     <div class="sec"><h3 data-ar="مجموعتنا" data-en="Our Collection">مجموعتنا</h3><p data-ar="لكل ذكرى شكل يليق بها" data-en="Every memory has a form that suits it">لكل ذكرى شكل يليق بها</p></div>
 
-    <div class="feature" onclick="alert('طباعة الصور — متاحة في النسخة الكاملة')">
+    <div class="feature" onclick="openFlow()">
       <div class="fimg"><img src="img/prints.jpg" alt=""><span class="pop" data-ar="الأكثر طلباً" data-en="Most loved">الأكثر طلباً</span></div>
       <div class="fb">
         <h4 data-ar="طباعة صور" data-en="Prints">طباعة صور</h4>
@@ -153,11 +215,7 @@
 
   <!-- ORDERS -->
   <section class="screen" id="s-orders">
-    <div class="empty">
-      <div class="big">📦</div>
-      <h2 data-ar="لا توجد طلبات بعد" data-en="No orders yet">لا توجد طلبات بعد</h2>
-      <p data-ar="اطبعي أول صورة — وتذكّري أن طلبكِ الأول مجاني 🎉" data-en="Print your first photo — and remember, your first order is free 🎉">اطبعي أول صورة — وتذكّري أن طلبكِ الأول مجاني 🎉</p>
-    </div>
+    <div id="ordersBox"></div>
   </section>
 
   <!-- ACCOUNT -->
@@ -166,9 +224,9 @@
     <div class="acc-name">نورة</div>
     <div class="acc-mail">noura@email.com</div>
     <div class="statcard">
-      <div><div class="n">0</div><div class="l" data-ar="طلبات" data-en="Orders">طلبات</div></div>
-      <div><div class="n">0</div><div class="l" data-ar="صور مطبوعة" data-en="Prints">صور مطبوعة</div></div>
-      <div><div class="n" style="color:var(--clay)">—</div><div class="l" data-ar="الطلب المجاني" data-en="Free order">الطلب المجاني</div></div>
+      <div><div class="n" id="stOrders">0</div><div class="l" data-ar="طلبات" data-en="Orders">طلبات</div></div>
+      <div><div class="n" id="stPrints">0</div><div class="l" data-ar="صور مطبوعة" data-en="Prints">صور مطبوعة</div></div>
+      <div><div class="n" id="stFree" style="color:var(--clay)">🎁</div><div class="l" data-ar="الطلب المجاني" data-en="Free order">الطلب المجاني</div></div>
     </div>
     <div class="acc-sec" data-ar="الحساب" data-en="Account">الحساب</div>
     <div class="list-row"><div class="ic">🔒</div><div><b data-ar="الخصوصية والأمان" data-en="Privacy & Security">الخصوصية والأمان</b><span data-ar="صورك محمية ومشفّرة" data-en="Protected & encrypted">صورك محمية ومشفّرة</span></div><span class="ch">‹</span></div>
@@ -177,7 +235,7 @@
     <div class="acc-sec" data-ar="المساعدة والتواصل" data-en="Help & Contact">المساعدة والتواصل</div>
     <div class="list-row"><div class="ic">✉️</div><div><b data-ar="راسلي الدعم" data-en="Contact Support">راسلي الدعم</b><span>support@laqta.sa</span></div><span class="ch">‹</span></div>
     <div class="list-row"><div class="ic">📄</div><div><b data-ar="سياسة الخصوصية والشروط" data-en="Privacy Policy & Terms">سياسة الخصوصية والشروط</b><span>PDPL · GDPR</span></div><span class="ch">‹</span></div>
-    <button class="signout" data-ar="تسجيل الخروج" data-en="Sign out">تسجيل الخروج</button>
+    <button class="signout" onclick="resetDemo()" data-ar="تسجيل الخروج (تصفير التجربة)" data-en="Sign out (reset demo)">تسجيل الخروج (تصفير التجربة)</button>
   </section>
 
   <nav class="tabbar">
@@ -186,12 +244,264 @@
     <button class="tab" data-scr="s-acc" onclick="go(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-ar="حسابي" data-en="Account">حسابي</span></button>
   </nav>
 </div>
+
+<!-- ===== order flow overlay ===== -->
+<div class="flow" id="flow">
+  <div class="flow-head">
+    <button class="bk" id="flowBk" onclick="flowBack()"></button>
+    <h2 id="flowTitle"></h2>
+  </div>
+  <div class="flow-body">
+    <div class="steps"><div class="st"></div><div class="st"></div><div class="st"></div></div>
+    <div id="flowStep"></div>
+  </div>
+  <div class="flow-foot"><button class="btn" id="flowNext" onclick="flowNext()"></button></div>
+</div>
+<input type="file" id="fileInput" accept="image/*" multiple hidden onchange="addPhotos(event)">
+
 <script>
-  function go(b){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));b.classList.add('on');
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));document.getElementById(b.dataset.scr).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
-  function setLang(l){document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
-    document.getElementById('btnAr').classList.toggle('on',l==='ar');document.getElementById('btnEn').classList.toggle('on',l==='en');
-    document.querySelectorAll('[data-ar]').forEach(e=>e.textContent=l==='ar'?e.dataset.ar:e.dataset.en);}
+/* ---------- language ---------- */
+let LANG='ar';
+const isAr=()=>LANG==='ar';
+function T(ar,en){return isAr()?ar:en;}
+
+function setLang(l){
+  LANG=l;
+  document.documentElement.lang=l;
+  document.documentElement.dir=l==='ar'?'rtl':'ltr';
+  document.getElementById('btnAr').classList.toggle('on',l==='ar');
+  document.getElementById('btnEn').classList.toggle('on',l==='en');
+  document.querySelectorAll('[data-ar]').forEach(e=>e.textContent=l==='ar'?e.dataset.ar:e.dataset.en);
+  renderOrders(); renderAccount();
+  if(document.getElementById('flow').classList.contains('on')) renderFlow();
+}
+
+/* ---------- tabs ---------- */
+function go(b){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(b.dataset.scr).classList.add('on');
+  if(b.dataset.scr==='s-orders') renderOrders();
+  if(b.dataset.scr==='s-acc') renderAccount();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goTab(scr){go(document.querySelector('.tab[data-scr="'+scr+'"]'));}
+
+/* ---------- product data (matches the app) ---------- */
+const SIZES=[
+  {ar:'مقاس عادي',en:'Classic',dimAr:'10×15 سم',dimEn:'10×15 cm',price:5},
+  {ar:'مربع انستقرام',en:'Square',dimAr:'10×10 سم',dimEn:'10×10 cm',price:8},
+  {ar:'كبير',en:'Large',dimAr:'15×21 سم',dimEn:'15×21 cm',price:12},
+  {ar:'A4',en:'A4',dimAr:'21×30 سم',dimEn:'21×30 cm',price:18},
+  {ar:'لوحة جدارية',en:'Wall Tile',dimAr:'20×20 سم',dimEn:'20×20 cm',price:35},
+  {ar:'مع برواز',en:'Framed',dimAr:'15×21 سم',dimEn:'15×21 cm',price:90},
+];
+const FINISHES=[
+  {ar:'لامع',en:'Glossy',dAr:'ألوان زاهية',dEn:'Vivid colors'},
+  {ar:'مط',en:'Matte',dAr:'بدون انعكاس',dEn:'No glare'},
+  {ar:'لاستر',en:'Lustre',dAr:'توازن بينهما',dEn:'Balanced'},
+];
+const DELIVERY=20;
+
+/* ---------- flow state ---------- */
+let F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:''};
+
+function openFlow(){
+  F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:''};
+  document.getElementById('flow').classList.add('on');
+  document.body.style.overflow='hidden';
+  renderFlow();
+}
+function closeFlow(){document.getElementById('flow').classList.remove('on');document.body.style.overflow='';}
+function flowBack(){ if(F.step===0){closeFlow();} else {F.step--; renderFlow();} }
+
+/* ---------- photos ---------- */
+function pickFiles(){document.getElementById('fileInput').click();}
+function fileToThumb(file){
+  return new Promise(res=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const max=700, s=Math.min(1,max/Math.max(img.width,img.height));
+        const c=document.createElement('canvas');c.width=img.width*s;c.height=img.height*s;
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        res(c.toDataURL('image/jpeg',0.82));
+      };
+      img.src=e.target.result;
+    };
+    r.readAsDataURL(file);
+  });
+}
+async function addPhotos(ev){
+  const files=[...ev.target.files];
+  ev.target.value='';
+  for(const f of files){ if(f.type.startsWith('image/')){ F.photos.push(await fileToThumb(f)); } }
+  renderFlow();
+}
+function removePhoto(i){F.photos.splice(i,1);renderFlow();}
+
+/* ---------- pricing ---------- */
+function isFirstOrder(){return getOrders().length===0;}
+function prints(){return F.photos.length*F.qty;}
+function itemsTotal(){return SIZES[F.size].price*prints();}
+function deliveryFee(){return F.fulfill==='delivery'?DELIVERY:0;}
+function payTotal(){return isFirstOrder()?deliveryFee():(itemsTotal()+deliveryFee());}
+const sar=n=>T(n+' ر.س', 'SAR '+n);
+
+/* ---------- flow render ---------- */
+function renderFlow(){
+  const titles=[T('اختاري صوركِ','Choose your photos'),T('تفاصيل الطباعة','Print details'),T('الدفع والتوصيل','Payment & delivery'),T('تم الطلب','Order placed')];
+  document.getElementById('flowTitle').textContent=titles[F.step];
+  document.getElementById('flowBk').textContent = F.step===0 ? '✕' : (isAr()?'→':'←');
+  document.getElementById('flowBk').style.visibility = F.step===3 ? 'hidden':'visible';
+  document.querySelectorAll('.steps .st').forEach((s,i)=>s.classList.toggle('on',i<=Math.min(F.step,2)));
+  const foot=document.getElementById('flowNext');
+  const box=document.getElementById('flowStep');
+
+  if(F.step===0){
+    box.innerHTML=`
+      <div class="dropzone" onclick="pickFiles()">
+        <div class="ic">📸</div>
+        <b>${T('اضغطي لاختيار الصور','Tap to choose photos')}</b>
+        <p>${T('من معرض صور جهازك · JPG · PNG','From your device gallery · JPG · PNG')}</p>
+      </div>
+      ${F.photos.length?`<div class="thumbs">${F.photos.map((p,i)=>`<div class="th"><img src="${p}"><button class="x" onclick="removePhoto(${i})">✕</button></div>`).join('')}<div class="add" onclick="pickFiles()">＋</div></div>`:''}`;
+    foot.disabled=F.photos.length===0;
+    foot.textContent=F.photos.length?T(`متابعة · ${prints()} صورة`,`Continue · ${prints()} photos`):T('اختاري صورة على الأقل','Select at least one photo');
+  }
+
+  else if(F.step===1){
+    box.innerHTML=`
+      <img class="preview" src="${F.photos[0]}">
+      <div class="lbl">${T('المقاس','Print size')}</div>
+      <div class="opt">${SIZES.map((s,i)=>`
+        <div class="o ${i===F.size?'sel':''}" onclick="F.size=${i};renderFlow()">
+          <div class="oi"><b>${isAr()?s.ar:s.en}</b><span>${isAr()?s.dimAr:s.dimEn}</span></div>
+          <div class="price">${sar(s.price)}</div>
+        </div>`).join('')}</div>
+      <div class="lbl">${T('نوع الورق','Finish')}</div>
+      <div class="chips">${FINISHES.map((f,i)=>`<div class="chip ${i===F.finish?'sel':''}" onclick="F.finish=${i};renderFlow()"><b>${isAr()?f.ar:f.en}</b><span>${isAr()?f.dAr:f.dEn}</span></div>`).join('')}</div>
+      <div class="lbl">${T('عدد النسخ لكل صورة','Copies per photo')}</div>
+      <div class="qty"><button onclick="F.qty=Math.max(1,F.qty-1);renderFlow()">−</button><b>${F.qty}</b><button onclick="F.qty++;renderFlow()">＋</button></div>
+      ${isFirstOrder()?`<div class="freebadge">🎉 ${T('طلبكِ الأول علينا — تدفعين التوصيل فقط','Your first order is on us — pay delivery only')}</div>`:''}`;
+    foot.disabled=false;
+    foot.textContent=T('متابعة للدفع','Continue to payment');
+  }
+
+  else if(F.step===2){
+    const first=isFirstOrder();
+    box.innerHTML=`
+      <div class="lbl" style="margin-top:0">${T('طريقة الاستلام','Fulfillment')}</div>
+      <div class="chips">
+        <div class="chip ${F.fulfill==='delivery'?'sel':''}" onclick="F.fulfill='delivery';renderFlow()"><b>🚚 ${T('توصيل','Delivery')}</b><span>${T('+20 ر.س · الرياض','+SAR 20 · Riyadh')}</span></div>
+        <div class="chip ${F.fulfill==='pickup'?'sel':''}" onclick="F.fulfill='pickup';renderFlow()"><b>🏬 ${T('استلام','Pickup')}</b><span>${T('مجاناً','Free')}</span></div>
+      </div>
+      <div class="field"><label>${T('الاسم','Name')}</label><input id="fName" value="${F.name}" placeholder="${T('نورة','Noura')}" oninput="F.name=this.value"></div>
+      <div class="field"><label>${T('رقم الجوال','Phone')}</label><input id="fPhone" value="${F.phone}" inputmode="numeric" placeholder="05xxxxxxxx" oninput="F.phone=this.value"></div>
+      ${F.fulfill==='delivery'?`<div class="field"><label>${T('عنوان التوصيل','Delivery address')}</label><input id="fAddr" value="${F.addr}" placeholder="${T('الحي، الشارع، الرياض','District, street, Riyadh')}" oninput="F.addr=this.value"></div>`:''}
+      <div class="paycard">
+        <div class="lbl" style="margin:0 0 4px">${T('بطاقة الدفع','Card')}</div>
+        <div class="field" style="margin-top:8px"><input placeholder="•••• •••• •••• ••••" inputmode="numeric" value="4242 4242 4242 4242"></div>
+        <div class="brow"><div class="field" style="flex:1"><input placeholder="MM/YY" value="12/28"></div><div class="field" style="flex:1"><input placeholder="CVC" value="123"></div></div>
+        <p style="color:var(--faint);font-size:11px;margin-top:8px">${T('🔒 دفع تجريبي آمن — لن تُخصم أي مبالغ','🔒 Secure demo payment — nothing is charged')}</p>
+      </div>
+      <div class="summary">
+        <div class="r"><span>${T('عدد الصور','Prints')}</span><b>${prints()}</b></div>
+        <div class="r"><span>${T('المقاس','Size')}</span><b>${isAr()?SIZES[F.size].ar:SIZES[F.size].en} · ${isAr()?SIZES[F.size].dimAr:SIZES[F.size].dimEn}</b></div>
+        <div class="r"><span>${T('نوع الورق','Finish')}</span><b>${isAr()?FINISHES[F.finish].ar:FINISHES[F.finish].en}</b></div>
+        <div class="r"><span>${T('قيمة الطباعة','Prints subtotal')}</span><b class="${first?'strike':''}">${sar(itemsTotal())}</b></div>
+        <div class="r"><span>${T('التوصيل','Delivery')}</span><b>${F.fulfill==='delivery'?sar(DELIVERY):T('مجاناً','Free')}</b></div>
+        <div class="r tot"><span>${T('الإجمالي','Total')}</span><span class="amt">${sar(payTotal())}</span></div>
+      </div>
+      ${first?`<div class="freebadge">🎉 ${T('خصم الطلب الأول مُطبّق — الطباعة مجاناً','First-order gift applied — prints are free')}</div>`:''}`;
+    foot.disabled=false;
+    foot.textContent=T('تأكيد الطلب والدفع · '+payTotal()+' ر.س','Confirm & pay · SAR '+payTotal());
+  }
+
+  else if(F.step===3){
+    const o=F.lastOrder;
+    box.innerHTML=`
+      <div class="success">
+        <div class="ok">✓</div>
+        <h2>${T('تم استلام طلبكِ! 🎉','Your order is placed! 🎉')}</h2>
+        <p>${T('نجهّز صورك بكل خصوصية ونوصلها لبابك في الرياض.','We will prepare your prints privately and deliver to your door in Riyadh.')}</p>
+        <div class="ordno"><span>${T('رقم الطلب','Order number')}</span>${o.id}</div>
+        <p style="font-size:13px">${T('تتبعي حالة طلبكِ من صفحة «طلباتي».','Track your order from the “Orders” tab.')}</p>
+      </div>`;
+    foot.disabled=false;
+    foot.textContent=T('عرض طلباتي','View my orders');
+  }
+}
+
+function flowNext(){
+  if(F.step===0){ if(F.photos.length){F.step=1;renderFlow();} }
+  else if(F.step===1){ F.step=2; renderFlow(); }
+  else if(F.step===2){
+    if(!F.name.trim()||!F.phone.trim()||(F.fulfill==='delivery'&&!F.addr.trim())){
+      alert(T('رجاءً أكملي بيانات الاسم والجوال'+(F.fulfill==='delivery'?' والعنوان':''),'Please fill in name, phone'+(F.fulfill==='delivery'?' and address':'')));
+      return;
+    }
+    placeOrder();
+    F.step=3; renderFlow();
+    window.scrollTo({top:0});
+  }
+  else if(F.step===3){ closeFlow(); goTab('s-orders'); }
+}
+
+/* ---------- orders storage ---------- */
+function getOrders(){try{return JSON.parse(localStorage.getItem('laqta_orders')||'[]');}catch(e){return[];}}
+function saveOrders(a){localStorage.setItem('laqta_orders',JSON.stringify(a));}
+function placeOrder(){
+  const id='LQ-'+Math.floor(100000+Math.random()*899999);
+  const d=new Date();
+  const order={
+    id, ts:d.getTime(),
+    dateAr:d.toLocaleDateString('ar-SA'), dateEn:d.toLocaleDateString('en-GB'),
+    prints:prints(), qty:F.qty,
+    sizeAr:SIZES[F.size].ar, sizeEn:SIZES[F.size].en,
+    dimAr:SIZES[F.size].dimAr, dimEn:SIZES[F.size].dimEn,
+    finishAr:FINISHES[F.finish].ar, finishEn:FINISHES[F.finish].en,
+    fulfill:F.fulfill, total:payTotal(), free:isFirstOrder(),
+    thumb:F.photos[0]
+  };
+  const arr=getOrders(); arr.unshift(order); saveOrders(arr);
+  F.lastOrder=order;
+  renderOrders(); renderAccount();
+}
+function resetDemo(){ if(confirm(T('تصفير التجربة وحذف الطلبات؟','Reset the demo and clear orders?'))){localStorage.removeItem('laqta_orders');renderOrders();renderAccount();goTab('s-home');} }
+
+/* ---------- render orders / account ---------- */
+function renderOrders(){
+  const box=document.getElementById('ordersBox');
+  const orders=getOrders();
+  if(!orders.length){
+    box.innerHTML=`<div class="empty"><div class="big">📦</div>
+      <h2>${T('لا توجد طلبات بعد','No orders yet')}</h2>
+      <p>${T('اطبعي أول صورة — وتذكّري أن طلبكِ الأول مجاني 🎉','Print your first photo — and remember, your first order is free 🎉')}</p>
+      <button class="btn" style="max-width:280px;margin:22px auto 0" onclick="openFlow()">${T('🖼️ ابدئي الآن','🖼️ Start now')}</button></div>`;
+    return;
+  }
+  box.innerHTML=`<div class="sec" style="margin-top:6px"><h3>${T('طلباتي','My Orders')}</h3><p>${T(orders.length+' طلب',orders.length+' order'+(orders.length>1?'s':''))}</p></div>`+
+    orders.map(o=>`<div class="ordercard">
+      <img src="${o.thumb}">
+      <div class="oi">
+        <b>${isAr()?o.sizeAr:o.sizeEn} · ${isAr()?o.dimAr:o.dimEn}</b>
+        <span>${o.prints} ${T('صورة','prints')} · ${isAr()?o.finishAr:o.finishEn} · ${o.fulfill==='delivery'?T('توصيل','Delivery'):T('استلام','Pickup')}</span>
+        <span>${o.id} · ${isAr()?o.dateAr:o.dateEn}</span>
+      </div>
+      <div class="rt"><div class="status">${T('قيد التجهيز','Processing')}</div><div class="total">${sar(o.total)}</div></div>
+    </div>`).join('');
+}
+function renderAccount(){
+  const orders=getOrders();
+  document.getElementById('stOrders').textContent=orders.length;
+  document.getElementById('stPrints').textContent=orders.reduce((s,o)=>s+o.prints,0);
+  document.getElementById('stFree').textContent=orders.length? T('مُستخدم','Used') : '🎁';
+}
+
+/* init */
+renderOrders(); renderAccount();
 </script>
 </body>
 </html>
