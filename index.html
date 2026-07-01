@@ -36,10 +36,17 @@
   .btn{text-decoration:none;font-weight:700;font-size:17px;padding:16px 30px;border-radius:16px;display:inline-flex;align-items:center;gap:8px}
   .btn-primary{background:var(--clay);color:#fff;box-shadow:0 12px 28px rgba(200,75,30,.28)}
   .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border)}
-  .phone{position:relative;justify-self:center}
-  .phone img{width:300px;border-radius:42px;border:10px solid #111;box-shadow:0 40px 80px rgba(0,0,0,.18);display:block}
-  .free-pill{position:absolute;top:26px;inset-inline-start:-24px;background:#fff;box-shadow:0 12px 30px rgba(0,0,0,.12);border-radius:16px;padding:12px 18px;font-weight:700;font-size:14px}
-  .free-pill b{color:var(--clay)}
+  .phone{position:relative;justify-self:center;text-align:center}
+  .device{position:relative;width:300px;height:640px;background:#111;border-radius:46px;padding:10px;box-shadow:0 40px 80px rgba(0,0,0,.20);overflow:hidden}
+  .notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#111;border-radius:0 0 16px 16px;z-index:5}
+  .device .screen{position:absolute;top:10px;left:10px;width:280px;height:620px;object-fit:cover;border-radius:38px;opacity:0;transition:opacity .4s ease;z-index:1}
+  .device .screen.active{opacity:1;z-index:2}
+  .dnav{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:40px;height:40px;border:none;border-radius:50%;background:rgba(255,255,255,.85);color:#111;font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+  .dnav.prev{right:14px}.dnav.next{left:14px}
+  .dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:.3s}
+  .dot.active{background:var(--clay);width:22px;border-radius:4px}
+  .tap-hint{color:var(--muted);font-size:14px;margin-top:12px}
 
   /* Trust bar */
   .trust{background:var(--clay-bg);border-block:1px solid var(--border)}
@@ -101,8 +108,16 @@
       </div>
     </div>
     <div class="phone">
-      <img src="img/splash.png" alt="لقطة">
-      <div class="free-pill">🎉 <b>أول طلب مجاناً</b><br>تدفعين التوصيل فقط</div>
+      <div class="device" id="device">
+        <div class="notch"></div>
+        <img class="screen active" src="img/screen1.png" alt="شاشة 1">
+        <img class="screen" src="img/screen2.png" alt="شاشة 2">
+        <img class="screen" src="img/screen3.png" alt="شاشة 3">
+        <button class="dnav prev" aria-label="السابق">‹</button>
+        <button class="dnav next" aria-label="التالي">›</button>
+      </div>
+      <div class="dots" id="dots"></div>
+      <p class="tap-hint">👆 اضغطي للتنقل بين شاشات التطبيق</p>
     </div>
   </header>
 </div>
@@ -157,5 +172,31 @@
   <div class="en" style="margin-top:6px">© 2026 Laqta. A women-operated photo printing service. Built for review.</div>
 </footer>
 
+<script>
+  (function(){
+    var screens = Array.prototype.slice.call(document.querySelectorAll('.device .screen'));
+    var dotsWrap = document.getElementById('dots');
+    var i = 0;
+    screens.forEach(function(_,idx){
+      var d = document.createElement('div'); d.className='dot'+(idx===0?' active':'');
+      d.onclick=function(){ go(idx); }; dotsWrap.appendChild(d);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+    function go(n){
+      i = (n+screens.length)%screens.length;
+      screens.forEach(function(s,idx){ s.classList.toggle('active', idx===i); });
+      dots.forEach(function(d,idx){ d.classList.toggle('active', idx===i); });
+    }
+    document.querySelector('.dnav.next').onclick=function(){ go(i+1); };
+    document.querySelector('.dnav.prev').onclick=function(){ go(i-1); };
+    document.getElementById('device').addEventListener('click', function(e){
+      if(e.target.classList.contains('dnav')) return;
+      go(i+1);
+    });
+    // auto-advance every 4s, pause on hover
+    var timer=setInterval(function(){go(i+1);},4000);
+    document.getElementById('device').addEventListener('mouseenter',function(){clearInterval(timer);});
+  })();
+</script>
 </body>
 </html>
