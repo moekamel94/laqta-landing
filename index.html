@@ -296,14 +296,14 @@
       <div class="c">
         <span class="badge" data-ar="🎉 أول طلب هدية منّا" data-en="🎉 First order on us">🎉 أول طلب هدية منّا</span>
         <h2 data-ar="حوّلي لحظاتكِ الغالية إلى صور تلمسينها" data-en="Turn your dearest moments into prints you can hold">حوّلي لحظاتكِ الغالية إلى صور تلمسينها</h2>
-        <div class="hero-priv">🔒 <span data-ar="تُطبع بأيدٍ نساء — لا يراها رجل" data-en="Printed by women — never seen by men">تُطبع بأيدٍ نساء — لا يراها رجل</span></div>
+        <div class="hero-priv">🔒 <span data-ar="صورك مشفّرة، تُحذف تلقائيًا بعد الطباعة" data-en="Encrypted photos, auto-deleted after printing">صورك مشفّرة، تُحذف تلقائيًا بعد الطباعة</span></div>
         <button class="btn" onclick="openFlow()"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span data-ar="اختاري صوركِ" data-en="Choose your photos">اختاري صوركِ</span></button>
       </div>
     </div>
 
     <div class="trust">
-      <div class="ti"><div class="e">👩</div><b data-ar="نساء فقط" data-en="Women only">نساء فقط</b><span data-ar="لا يراها رجل" data-en="Never seen by men">لا يراها رجل</span></div>
-      <div class="ti"><div class="e">🔒</div><b data-ar="خصوصية" data-en="Private">خصوصية</b><span data-ar="تُحذف بعد الطباعة" data-en="Auto-deleted">تُحذف بعد الطباعة</span></div>
+      <div class="ti"><div class="e">🔐</div><b data-ar="مشفّرة" data-en="Encrypted">مشفّرة</b><span data-ar="من لحظة الرفع" data-en="From the moment you upload">من لحظة الرفع</span></div>
+      <div class="ti"><div class="e">🔒</div><b data-ar="خصوصية" data-en="Private">خصوصية</b><span data-ar="تُحذف بعد الطباعة" data-en="Deleted after printing">تُحذف بعد الطباعة</span></div>
       <div class="ti"><div class="e">🚚</div><b data-ar="توصيل" data-en="Delivery">توصيل</b><span data-ar="داخل الرياض" data-en="Across Riyadh">داخل الرياض</span></div>
     </div>
 
@@ -318,7 +318,7 @@
       </div>
     </div>
 
-    <div class="sec"><h3 data-ar="أهدي لحظة" data-en="Gift a moment">أهدي لحظة</h3><p data-ar="هدايا مطبوعة لكل مناسبة — تجهّزها نساء" data-en="Printed gifts for every occasion — made by women">هدايا مطبوعة لكل مناسبة — تجهّزها نساء</p></div>
+    <div class="sec"><h3 data-ar="أهدي لحظة" data-en="Gift a moment">أهدي لحظة</h3><p data-ar="هدايا مطبوعة لكل مناسبة — بخصوصية تامة" data-en="Printed gifts for every occasion — fully private">هدايا مطبوعة لكل مناسبة — بخصوصية تامة</p></div>
     <div class="gchips" id="gchips"></div>
     <div class="bundles" id="bundles"></div>
 
@@ -500,7 +500,7 @@ function openBundle(i){
     <div class="bhero"><img src="${b.img}" alt=""><div class="t">${isAr()?b.ar:b.en}</div></div>
     <div class="btag">${isAr()?b.tagAr:b.tagEn}</div>
     <div class="binc">${(isAr()?b.incAr:b.incEn).map(x=>`<div class="r"><span class="c">✓</span><span>${x}</span></div>`).join('')}</div>
-    <div class="btag" style="font-size:13px">🔒 ${T('تجهّزها نساء، وتوصل مغلّفة بخصوصية.','Prepared by women, delivered privately wrapped.')}</div>`;
+    <div class="btag" style="font-size:13px">🔒 ${T('خصوصية مضمونة، وتصل مغلّفة بعناية.','Privacy guaranteed, delivered wrapped with care.')}</div>`;
   document.getElementById('bFoot').innerHTML=`<div class="bprice"><span>${T('سعر الهدية','Gift price')}</span><b style="font-size:22px;color:var(--clay)">${sar(b.price)}</b></div><button class="btn" onclick="bundleSend()">${T('أرسلي الهدية 🎁','Send this gift 🎁')}</button>`;
   document.getElementById('bsheet').classList.add('on'); document.body.style.overflow='hidden'; window.scrollTo({top:0});
 }
