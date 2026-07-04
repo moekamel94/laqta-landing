@@ -448,13 +448,16 @@ function go(b){
 function goTab(scr){go(document.querySelector('.tab[data-scr="'+scr+'"]'));}
 
 /* ---------- product data (matches the app) ---------- */
+// Launch scope is single-size prints only — the backend's CANONICAL_PRICES only
+// recognizes "Classic", so every other size here is coming-soon (kept for the
+// catalog preview, not orderable) until they're actually priced and enabled server-side.
 const SIZES=[
-  {ar:'مقاس عادي',en:'Classic',dimAr:'10×15 سم',dimEn:'10×15 cm',price:5,ratio:1.5},
-  {ar:'مربع انستقرام',en:'Square',dimAr:'10×10 سم',dimEn:'10×10 cm',price:8,ratio:1},
-  {ar:'كبير',en:'Large',dimAr:'15×21 سم',dimEn:'15×21 cm',price:12,ratio:0.72},
-  {ar:'A4',en:'A4',dimAr:'21×30 سم',dimEn:'21×30 cm',price:18,ratio:0.7},
-  {ar:'لوحة جدارية',en:'Wall Tile',dimAr:'20×20 سم',dimEn:'20×20 cm',price:35,ratio:1},
-  {ar:'مع برواز',en:'Framed',dimAr:'15×21 سم',dimEn:'15×21 cm',price:90,ratio:0.72,framed:true},
+  {ar:'مقاس عادي',en:'Classic',dimAr:'10×15 سم',dimEn:'10×15 cm',price:4,ratio:1.5},
+  {ar:'مربع انستقرام',en:'Square',dimAr:'10×10 سم',dimEn:'10×10 cm',price:8,ratio:1,soon:true},
+  {ar:'كبير',en:'Large',dimAr:'15×21 سم',dimEn:'15×21 cm',price:12,ratio:0.72,soon:true},
+  {ar:'A4',en:'A4',dimAr:'21×30 سم',dimEn:'21×30 cm',price:18,ratio:0.7,soon:true},
+  {ar:'لوحة جدارية',en:'Wall Tile',dimAr:'20×20 سم',dimEn:'20×20 cm',price:35,ratio:1,soon:true},
+  {ar:'مع برواز',en:'Framed',dimAr:'15×21 سم',dimEn:'15×21 cm',price:90,ratio:0.72,framed:true,soon:true},
 ];
 function fitDim(r){var bw=132,bh=120,w,h; if(r>=bw/bh){w=bw;h=bw/r;}else{h=bh;w=bh*r;} return {w:Math.round(w),h:Math.round(h)};}
 function srcHint(x){ alert(T('احفظي الصور من '+(x==='ig'?'انستقرام':'واتساب')+' إلى ألبومك أولاً، ثم اختريها من مكتبة الصور 🙂','Save the photos from '+(x==='ig'?'Instagram':'WhatsApp')+' to your album first, then pick them from Photo Library 🙂')); pickFiles(); }
@@ -487,9 +490,11 @@ let curBundle=0;
 function renderGift(){
   var g=document.getElementById('gchips'); if(!g) return;
   g.innerHTML=OCCASIONS.map(o=>`<div class="gchip"><span>${o.emoji}</span><span>${isAr()?o.ar:o.en}</span></div>`).join('');
+  // Curated gift boxes are coming-soon at launch (single-size prints only for now) —
+  // shown as a teaser, not purchasable, matching the app.
   document.getElementById('bundles').innerHTML=BUNDLES.map((b,i)=>`
-    <div class="bcard" onclick="openBundle(${i})">
-      <div class="bimg"><img src="${b.img}" alt=""><span class="bp">${sar(b.price)}</span></div>
+    <div class="bcard" style="opacity:.6" onclick="alert(T('نجهّز صناديق الهدايا، تتوفر قريباً 🌸','Gift boxes are coming soon 🌸'))">
+      <div class="bimg"><img src="${b.img}" alt=""><span class="bp">${T('قريباً','Coming soon')}</span></div>
       <div class="bb"><b>${isAr()?b.ar:b.en}</b><p>${isAr()?b.tagAr:b.tagEn}</p></div>
     </div>`).join('');
 }
@@ -508,17 +513,17 @@ function closeBundle(){document.getElementById('bsheet').classList.remove('on');
 function bundleSend(){
   var b=BUNDLES[curBundle]; closeBundle();
   setTimeout(function(){
-    F={step:2,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:'',bundle:b};
+    F={step:2,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:'',consent:false,bundle:b};
     document.getElementById('flow').classList.add('on'); document.body.style.overflow='hidden';
     renderFlow(); window.scrollTo({top:0});
   }, 320);
 }
 
 /* ---------- flow state ---------- */
-let F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:''};
+let F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:'',consent:false};
 
 function openFlow(){
-  F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:'',bundle:null};
+  F={step:0,photos:[],size:0,finish:0,qty:1,fulfill:'delivery',name:'',phone:'',addr:'',consent:false,bundle:null};
   document.getElementById('flow').classList.add('on');
   document.body.style.overflow='hidden';
   renderFlow();
@@ -608,11 +613,11 @@ function renderFlow(){
     box.innerHTML=`
       <div class="lbl" style="margin-top:0">${T('اختاري المقاس','Choose your size')}</div>
       <div class="sizegrid">${SIZES.map((s,i)=>{var d=fitDim(s.ratio);return `
-        <div class="sizeopt ${i===F.size?'sel':''} ${s.framed?'framed':''}" onclick="F.size=${i};renderFlow()">
+        <div class="sizeopt ${i===F.size?'sel':''} ${s.framed?'framed':''}" style="${s.soon?'opacity:.5':''}" onclick="${s.soon?`alert(T('هذا المقاس قريباً 🌸','This size is coming soon 🌸'))`:`F.size=${i};renderFlow()`}">
           <div class="ph"><div class="im" style="width:${d.w}px;height:${d.h}px;background-image:url('${F.photos[0]}')"></div></div>
           <div class="snm">${isAr()?s.ar:s.en}</div>
           <div class="sdm">${isAr()?s.dimAr:s.dimEn}</div>
-          <div class="spr">${sar(s.price)}</div>
+          <div class="spr">${s.soon?T('قريباً','Soon'):sar(s.price)}</div>
         </div>`}).join('')}</div>
       <div class="lbl">${T('نوع الورق','Finish')}</div>
       <div class="chips">${FINISHES.map((f,i)=>`<div class="chip ${i===F.finish?'sel':''}" onclick="F.finish=${i};renderFlow()"><b>${isAr()?f.ar:f.en}</b><span>${isAr()?f.dAr:f.dEn}</span></div>`).join('')}</div>
@@ -631,15 +636,18 @@ function renderFlow(){
         <div class="chip ${F.fulfill==='delivery'?'sel':''}" onclick="F.fulfill='delivery';renderFlow()"><b>🚚 ${T('توصيل','Delivery')}</b><span>${T('+٢٠ · مجاني فوق ١٩٩','+20 · free over 199')}</span></div>
         <div class="chip ${F.fulfill==='pickup'?'sel':''}" onclick="F.fulfill='pickup';renderFlow()"><b>🏬 ${T('استلام','Pickup')}</b><span>${T('مجاناً','Free')}</span></div>
       </div>
-      <div class="field"><label>${T('الاسم','Name')}</label><input id="fName" value="${F.name}" placeholder="${T('نورة','Noura')}" oninput="F.name=this.value"></div>
-      <div class="field"><label>${T('رقم الجوال','Phone')}</label><input id="fPhone" value="${F.phone}" inputmode="numeric" placeholder="05xxxxxxxx" oninput="F.phone=this.value"></div>
-      ${F.fulfill==='delivery'?`<div class="field"><label>${T('عنوان التوصيل','Delivery address')}</label><input id="fAddr" value="${F.addr}" placeholder="${T('الحي، الشارع، الرياض','District, street, Riyadh')}" oninput="F.addr=this.value"></div>`:''}
+      <div class="field"><label>${T('الاسم','Name')}</label><input id="fName" value="${esc(F.name)}" placeholder="${T('نورة','Noura')}" oninput="F.name=this.value"></div>
+      <div class="field"><label>${T('رقم الجوال','Phone')}</label><input id="fPhone" value="${esc(F.phone)}" inputmode="numeric" placeholder="05xxxxxxxx" oninput="F.phone=this.value"></div>
+      ${F.fulfill==='delivery'?`<div class="field"><label>${T('عنوان التوصيل','Delivery address')}</label><input id="fAddr" value="${esc(F.addr)}" placeholder="${T('الحي، الشارع، الرياض','District, street, Riyadh')}" oninput="F.addr=this.value"></div>`:''}
       <div class="paycard">
-        <div class="lbl" style="margin:0 0 4px">${T('بطاقة الدفع','Card')}</div>
-        <div class="field" style="margin-top:8px"><input placeholder="•••• •••• •••• ••••" inputmode="numeric" value="4242 4242 4242 4242"></div>
-        <div class="brow"><div class="field" style="flex:1"><input placeholder="MM/YY" value="12/28"></div><div class="field" style="flex:1"><input placeholder="CVC" value="123"></div></div>
-        <p style="color:var(--faint);font-size:11px;margin-top:8px">${T('🔒 دفع آمن ومشفّر · بياناتك محمية','🔒 Secure encrypted payment · your data is protected')}</p>
+        <div class="lbl" style="margin:0 0 4px">${T('الدفع','Payment')}</div>
+        <p style="color:var(--faint);font-size:13px;margin-top:6px">${T('🔒 الدفع الإلكتروني الآمن عبر Moyasar يُفعَّل قريباً — سنؤكد طلبكِ ونتواصل معكِ لترتيب الدفع.','🔒 Secure online payment via Moyasar is launching soon — we\'ll confirm your order and reach out to arrange payment.')}</p>
       </div>
+      <label class="field" style="display:flex;align-items:flex-start;gap:8px;flex-direction:row;cursor:pointer">
+        <input type="checkbox" id="fConsent" ${F.consent?'checked':''} style="margin-top:3px" onchange="F.consent=this.checked">
+        <span style="font-size:12px;color:var(--faint)">${T('أوافق على معالجة صوري وبياناتي لتنفيذ الطلب، وفق سياسة الخصوصية.','I agree to my photos and data being processed to fulfill this order, per the privacy policy.')}</span>
+      </label>
+      <div id="orderErr" style="display:none;color:#c0392b;font-size:13px;margin-top:8px"></div>
       <div class="summary">
         ${F.bundle
           ? `<div class="r"><span>${T('الهدية','Gift')}</span><b>${isAr()?F.bundle.ar:F.bundle.en}</b></div>`
@@ -671,29 +679,84 @@ function renderFlow(){
   }
 }
 
-function flowNext(){
+async function flowNext(){
   if(F.step===0){ if(F.photos.length){F.step=1;renderFlow();} }
   else if(F.step===1){ F.step=2; renderFlow(); }
   else if(F.step===2){
+    const errBox=document.getElementById('orderErr');
+    if(errBox){errBox.style.display='none';}
     if(!F.name.trim()||!F.phone.trim()||(F.fulfill==='delivery'&&!F.addr.trim())){
       alert(T('رجاءً أكملي بيانات الاسم والجوال'+(F.fulfill==='delivery'?' والعنوان':''),'Please fill in name, phone'+(F.fulfill==='delivery'?' and address':'')));
       return;
     }
-    placeOrder();
-    F.step=3; renderFlow();
-    window.scrollTo({top:0});
+    if(!F.consent){
+      alert(T('رجاءً وافقي على معالجة صوركِ وبياناتكِ للمتابعة.','Please agree to the photo/data consent to continue.'));
+      return;
+    }
+    const foot=document.getElementById('flowNext');
+    const prevText=foot.textContent;
+    foot.disabled=true; foot.textContent=T('جارٍ إرسال طلبكِ…','Sending your order…');
+    try{
+      await placeOrder();
+      F.step=3; renderFlow();
+      window.scrollTo({top:0});
+    }catch(e){
+      foot.disabled=false; foot.textContent=prevText;
+      if(errBox){errBox.textContent=T('تعذّر إرسال الطلب: ','Couldn\'t send your order: ')+e.message; errBox.style.display='block';}
+    }
   }
   else if(F.step===3){ closeFlow(); goTab('s-orders'); }
+}
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+/* ---------- backend ---------- */
+// Points at the live Railway deployment until api.taba3.sa's DNS is pointed at it —
+// swap this one line once that's done, no other code needs to change.
+const API_BASE='https://api.taba3.sa';
+
+function dataURLtoBlob(dataUrl){
+  const [meta,b64]=dataUrl.split(',');
+  const mime=meta.match(/:(.*?);/)[1];
+  const bin=atob(b64);
+  const arr=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++){arr[i]=bin.charCodeAt(i);}
+  return new Blob([arr],{type:mime});
 }
 
 /* ---------- orders storage ---------- */
 function getOrders(){try{return JSON.parse(localStorage.getItem('laqta_orders')||'[]');}catch(e){return[];}}
 function saveOrders(a){localStorage.setItem('laqta_orders',JSON.stringify(a));}
-function placeOrder(){
-  const id='LQ-'+Math.floor(100000+Math.random()*899999);
+async function placeOrder(){
+  if(!F.localOrderId){F.localOrderId=(crypto.randomUUID?crypto.randomUUID():(Date.now()+'-'+Math.random()));}
+
+  const items=F.bundle
+    ? [{sizeName:F.bundle.en, quantity:1, unitPrice:F.bundle.price}]
+    : [{sizeName:SIZES[F.size].en, quantity:prints(), unitPrice:SIZES[F.size].price}];
+
+  const orderPayload={
+    customerName:F.name.trim(), phone:F.phone.trim(), fulfillment:F.fulfill,
+    address:F.fulfill==='delivery'?F.addr.trim():'',
+    localOrderId:F.localOrderId, consentGiven:true, consentTimestamp:new Date().toISOString(),
+    items, total:payTotal()
+  };
+
+  const fd=new FormData();
+  fd.append('order', JSON.stringify(orderPayload));
+  F.photos.forEach((p,i)=>{ fd.append('image_'+i, dataURLtoBlob(p), 'image_'+i+'.jpg'); });
+
+  const res=await fetch(API_BASE+'/orders', {method:'POST', body:fd});
+  if(!res.ok){
+    let msg='HTTP '+res.status;
+    try{ const j=await res.json(); if(j.detail) msg=j.detail; }catch(e){}
+    throw new Error(msg);
+  }
+  const data=await res.json();
+
+  const id=data.orderId;
   const d=new Date();
   const order={
-    id, ts:d.getTime(),
+    id, serverOrderId:data.orderId, phone:F.phone.trim(), ts:d.getTime(),
     dateAr:d.toLocaleDateString('ar-SA'), dateEn:d.toLocaleDateString('en-GB'),
     prints:prints(), qty:F.qty,
     sizeAr:SIZES[F.size].ar, sizeEn:SIZES[F.size].en,
@@ -731,8 +794,26 @@ function renderOrders(){
         <span>${o.prints} ${T('صورة','prints')} · ${isAr()?o.finishAr:o.finishEn} · ${o.fulfill==='delivery'?T('توصيل','Delivery'):T('استلام','Pickup')}</span>
         <span>${o.id} · ${isAr()?o.dateAr:o.dateEn}</span>
       </div>
-      <div class="rt"><div class="status">${T('قيد التجهيز','Processing')}</div><div class="total">${sar(o.total)}</div></div>
+      <div class="rt"><div class="status" id="ost-${o.id}">${T('قيد التجهيز','Processing')}</div><div class="total">${sar(o.total)}</div></div>
     </div>`).join('');
+  refreshOrderStatuses(orders);
+}
+const STATUS_LABEL={new:['قيد التجهيز','Processing'],ready:['جاهز','Ready'],printing:['قيد الطباعة','Printing'],
+  out_for_delivery:['في الطريق','Out for delivery'],delivered:['تم التوصيل','Delivered']};
+async function refreshOrderStatuses(orders){
+  // Only orders placed against the real backend (post cutover) carry serverOrderId+phone —
+  // older locally-fabricated demo orders just keep the static label.
+  for(const o of orders){
+    if(!o.serverOrderId || !o.phone) continue;
+    try{
+      const res=await fetch(`${API_BASE}/api/orders/${o.serverOrderId}/status?phone=${encodeURIComponent(o.phone)}`);
+      if(!res.ok) continue;
+      const s=await res.json();
+      const el=document.getElementById('ost-'+o.id);
+      const label=STATUS_LABEL[s.status];
+      if(el && label){ el.textContent=T(label[0],label[1]); }
+    }catch(e){ /* offline or backend unreachable — leave the static label */ }
+  }
 }
 function renderAccount(){
   const orders=getOrders();
